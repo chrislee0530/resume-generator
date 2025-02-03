@@ -1,10 +1,10 @@
-# My Personal Project
+# RESUME/CV Generator
 
-## A subtitle
+## Project Description
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
+For my UBC CPSC 210 term project, which will be my first project ever built in Java, I propose designing a resume/CV generator. Nowadays, a professional, concise, and well-structured resume or CV is essential for every undergraduate student–whether their post-graduate goal is employment at one of FAANG companies or further education at graduate school. Recently, during my Business Fundamentals (COMM 101) class, I learned the key difference between a resume and a CV. A resume must “summarize your professional work experience, skills, and educational history in a one one or two-page document” (Indeed, 2024), while “CV is a highly detailed professional document outlining the academic background, work experience, and career achievements” (Indeed, 2024).  Unfortunately, many people overlook these significant differences, which can lead to missed opportunities in securing a job or admission to graduate programs. My project aims to address this issue.
+
+While there are many applications out in the world that can generate a resume within seconds using user input, my unique project will produce distinctly different results depending on whether the user selects a resume or a CV at the start of the program. When the program runs, the user will first choose whether they want to create a resume or CV. They will then enter their information in response to specific prompts. At the end of the process, the program will compile all inputted information and generate a professional resume or CV. Although this user-friendly program can be utilized by individuals of any age, its primary targeted user segment consists of undergraduate students and recent graduates who need a professional resume or CV for their post-graduate journey. This program is especially meaningful to me as an undergraduate student, as I understand the importance of having a strong resume/CV. With this project, I wish to help others (including myself) reduce the stress and time spent manually formatting resumes and CVs, allowing them to focus on other valuable things.
+
 
 An example of text with **bold** and *italic* fonts.  

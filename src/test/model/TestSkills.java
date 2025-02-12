@@ -1,7 +1,6 @@
 package model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
@@ -18,7 +17,7 @@ public class TestSkills {
 
     @Test
     void testConstructor() {
-        assertNull(skills.getSkills());
+        assertTrue(skills.getSkills().isEmpty());
 
         ArrayList<String> skillsList = skills.getSkills();
         assertEquals(0, skillsList.size());
@@ -43,5 +42,30 @@ public class TestSkills {
         ArrayList<String> skillsList = skills.getSkills();
         assertEquals(1, skillsList.size());
         assertEquals("Java", skillsList.get(0));
+    }
+
+    @Test
+    void testRemoveSkill() {
+        skills.addSkill("Java");
+        skills.addSkill("Python");
+
+        skills.removeSkill("Java");
+
+        ArrayList<String> skillsList = skills.getSkills();
+        assertEquals(1, skillsList.size());
+        assertEquals("Python", skillsList.get(0));
+    }
+
+    @Test
+    void testRemoveSkillDoesNotExist() {
+        skills.addSkill("Java");
+        skills.addSkill("Python");
+
+        skills.removeSkill("C++");
+
+        ArrayList<String> skillsList = skills.getSkills();
+        assertEquals(2, skillsList.size());
+        assertEquals("Java", skillsList.get(0));
+        assertEquals("Python", skillsList.get(1));
     }
 }

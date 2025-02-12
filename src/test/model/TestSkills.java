@@ -5,15 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TestSample {
+public class TestSkills {
+    private Skills skills;
     
     @BeforeEach
     void runBefore() {
-
+        skills = new Skills();
     }
 
     @Test
-    void sampleTest() {
-        assertTrue(true);
+    void testAddSkill() {
+        
     }
 }

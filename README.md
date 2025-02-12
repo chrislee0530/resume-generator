@@ -1,4 +1,4 @@
-# RESUME/CV Generator
+# RESUME Generator
 
 ## Project Description
 
@@ -8,7 +8,7 @@ The users will get to enter their information in response to specific prompts. A
  
 ## User Stories
 
-- As a user, I want to be able to input my **profile** (name, contact information, and professional summary) and add them to my **resume**
-- As a user, I want to view all the **profile** sections (ex. Work Experience, Education, Skills, Projects) that I have added on my resume
-- As a user, I want to be select a **profile** section and edit the information
-- As a user, I want to delete my **profile** section from my resume
+- As a user, I want to be able to add my **sections** (profile, experience, education, skills) and add them to my **resume**
+- As a user, I want to be able to select a **section** and view the list of contents (ex. a list of skills on the Skill section) that I have added on my resume
+- As a user, I want to select a **section** and edit the information
+- As a user, I want to delete a **section** from my resume

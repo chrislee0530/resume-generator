@@ -22,7 +22,7 @@ public class TestProfile {
         assertEquals("Vancouver, BC V6T 1Z4", profile.getAddress());
         assertEquals(
             "Passionate BUCS student with a strong foundation in computational problem solving and Java programming.",
-            profile.getSummary());
+            profile.getObjective());
 
     }
 
@@ -53,7 +53,7 @@ public class TestProfile {
     @Test
     void testSetObjective() {
         profile.setObjective("No objective");
-        assertEquals("No objective", profile.getSummary());   
+        assertEquals("No objective", profile.getObjective());   
     }
 
 }

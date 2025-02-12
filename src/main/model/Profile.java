@@ -2,65 +2,75 @@ package model;
 
 // Represents the user's profile information including name, contact info, and address
 public class Profile {
+    String name;
+    String number;
+    String email;
+    String address;
+    String objective;
+    
 
     // EFFECTS: constructs a new profile with given information
     public Profile(String name, String number, String email, String address, String objective) {
-
+        this.name = name;
+        this.number = number;
+        this.email = email;
+        this.address = address;
+        this.objective = objective;
     }
 
     // EFFECTS: returns the user's name
     public String getName() {
-        return ""; // stub
+        return name; // stub
     }
     
     // EFFECTS: returns the user's phone number
     public String getNumber() {
-        return ""; // stub
+        return number; // stub
     }
 
     // EFFECTS: returns the user's email address
     public String getEmail() {
-        return ""; // stub
+        return email; // stub
     }
 
     // EFFECTS: returns the user's home address
     public String getAddress() {
-        return ""; // stub
+        return address; // stub
     }
 
     // EFFECTS: returns a short reusme objective sentences
-    public String getSummary() {
-        return ""; // stub
+    public String getObjective() {
+        return objective; // stub
     }
 
     // MODIFIES: this
     // EFFECTS: updates the user's name with given name
     public void setName(String name) {
-        // stub
+        this.name = name;
     }
 
     // MODIFIES: this
     // EFFECTS: updates the user's phone number with given number
     public void setNumber(String number) {
-        // stub
+        this.number = number;
     }
 
     // MODIFIES: this
     // EFFECTS: updates the user's email address with given email address
     public void setEmail(String email) {
-        // stub
+        this.email = email;
     }
 
     // MODIFIES: this
     // EFFECTS: updates the user's home address with given home address
     public void setAddress(String address) {
-        // stub
+        this.address = address;
     }
 
     // MODIFIES: this
     // EFFECTS: updates the user's resume objective with given objective
     public void setObjective(String objective) {
-        // stub
+        this.objective = objective;
     }
 
 }

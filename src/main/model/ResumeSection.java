@@ -2,65 +2,75 @@ package model;
 
 // Represents a general section of a resume
 public abstract class ResumeSection {
+    String institution;
+    String location;
+    String startYear;
+    String endYear;
+    String description;
+    
 
     // EFFECTS: Constructs a ResumeSection with the given institution, location, start year, end year, and description
     public ResumeSection(String institution, String location, String startYear, String endYear, String description) {
-        // stub
+        this.institution = institution;
+        this.location = location;
+        this.startYear = startYear;
+        this.endYear = endYear;
+        this.description = description;
     }
 
     // EFFECTS: Returns the institution name
     public String getInstitution() {
-        return ""; // stub
+        return institution;
     }
 
     // MODIFIES: this
     // EFFECTS: sets the institution name to the given value
     public void setInstitution(String institution) {
-        // stub
+        this.institution = institution;
     }
 
     // EFFECTS: Returns the location
     public String getLocation() {
-        return ""; // stub
+        return location;
     }
 
     // MODIFIES: this
     // EFFECTS: sets the location to the given value
     public void setLocation(String location) {
-        // stub
+        this.location = location;
     }
 
     // EFFECTS: Returns the start year
     public String getStartYear() {
-        return ""; // stub
+        return startYear;
     }
 
     // MODIFIES: this
     // EFFECTS: sets the start year to the given value
     public void setStartYear(String startYear) {
-        // stub
+        this.startYear = startYear;
     }
 
     // EFFECTS: Returns the end year
     public String getEndYear() {
-        return ""; // stub
+        return endYear;
     }
 
     // MODIFIES: this
     // EFFECTS: sets the end year to the given value
     public void setEndYear(String endYear) {
-        // stub
+        this.endYear = endYear;
     }
 
     // EFFECTS: Returns the description of the section
     public String getDescription() {
-        return ""; // stub
+        return description;
     }
 
     // MODIFIES: this
     // EFFECTS: sets the description to the given value
     public void setDescription(String description) {
-        // stub
+        this.description = description;
     }
 
 

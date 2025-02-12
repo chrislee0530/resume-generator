@@ -12,7 +12,7 @@ public class Skills {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a new skill to the list
+    // EFFECTS: adds a new skill to the list, if there exists a same skill, don't add          
     public void addSkill(String skill) {
 
     }
@@ -23,7 +23,7 @@ public class Skills {
 
     }
 
-    // EFFECTS: returns the list of skills
+    // EFFECTS: returns the list of skills, null if empty
     public ArrayList<String> getSkills() {
         return null; //stub
     }

@@ -12,3 +12,4 @@ The users will get to enter their information in response to specific prompts. A
 - As a user, I want to be able to select a **section** and view the list of contents (ex. a list of skills on the Skill section) that I have added on my resume
 - As a user, I want to select a **section** and edit the information
 - As a user, I want to delete a **section** from my resume
+- As a user, I want to view the final version of my resume

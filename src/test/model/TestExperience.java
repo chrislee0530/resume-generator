@@ -13,7 +13,7 @@ public class TestExperience {
     void runBefore() {
         productManager = new Experience("Product Manager", 
         "Microsoft", 
-        "Microsoft", 
+        "Vancouver", 
         2020, 8, 
         2023, 12,
         "Copilot prototyping");
@@ -29,12 +29,22 @@ public class TestExperience {
     @Test
     void testConstructor() {
         assertEquals("Microsoft", productManager.getInstitution());
-        assertEquals("Microsoft", productManager.getLocation());
+        assertEquals("Vancouver", productManager.getLocation());
         assertEquals(2020, productManager.getStartYear());
         assertEquals(8, productManager.getStartMonth());
         assertEquals(2023, productManager.getEndYear());
         assertEquals(12, productManager.getEndMonth());
         assertEquals("Copilot prototyping", productManager.getDescription());
+    }
+
+    @Test
+    void testGetTotalDuration() {
+        assertEquals(40, productManager.getTotalDuration());
+    }
+
+    @Test
+    void testGetTotalDurationPresent() {
+        assertEquals(0, professor.getTotalDuration());
     }
 
     @Test
@@ -51,7 +61,7 @@ public class TestExperience {
 
     @Test
     void testSetLocation() {
-        productManager.setInstitution("Seattle");
+        productManager.setLocation("Seattle");
         assertEquals("Seattle", productManager.getLocation());
     }
 
@@ -63,7 +73,7 @@ public class TestExperience {
 
     @Test
     void testSetStartMonth() {
-        productManager.setStartYear(5);
+        productManager.setStartMonth(5);
         assertEquals(5, productManager.getStartMonth());
     }
 

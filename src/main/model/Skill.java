@@ -13,24 +13,24 @@ public class Skill {
 
     // EFFECTS: Returns the title of the skill
     public String getTitle() {
-        return ""; //stub
+        return title;
     }
     
     // MODIFIES: this
     // EFFECTS: sets the title of the skill
     public void setTitle(String title) {
-        // stub
+        this.title = title;
     }
 
     // EFFECTS: Returns level of the skill
     public int getLevel() {
-        return 0; //stub
+        return level;
     }
     
     // MODIFIES: this
     // EFFECTS: sets the level of the skill
     public void setLevel(int level) {
-        // stub
+        this.level = level;
     }
 
 

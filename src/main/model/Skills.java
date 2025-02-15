@@ -11,29 +11,31 @@ public class Skills {
         skills = new ArrayList<Skill>();
     }
 
-    // REQUIRES: skills.size() > 0
+    // REQUIRES: skills.size() >= 0
     // MODIFIES: this
     // EFFECTS: reorder the skills list from highest to lowest level and
     //          return the first num number of skills in the list
     public ArrayList<Skill> topSkills(int num) {
         ArrayList<Skill> topSkills = new ArrayList<>();
+        ArrayList<Skill> clone = new ArrayList<>(skills);
 
-        if (skills.isEmpty()) {
+        if (clone.isEmpty()) {
             return topSkills;
         }
         
-        int max = skills.get(0).getLevel();
-        Skill topSkill = skills.get(0);
+        int max = clone.get(0).getLevel();
+        Skill topSkill = clone.get(0);
 
         while (topSkills.size() < num) {
-            for (Skill skill : skills) {
+            for (Skill skill : clone) {
                 if (skill.getLevel() > max) {
                     max = skill.getLevel();
                     topSkill = skill;
                 }
             }
             topSkills.add(topSkill);
-            skills.remove(topSkill);
+            clone.remove(topSkill);
+            max = 0;
         }
 
         return topSkills;

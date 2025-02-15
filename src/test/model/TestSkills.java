@@ -9,17 +9,20 @@ import org.junit.jupiter.api.Test;
 
 public class TestSkills {
     private Skills skills;
-    private Skill java;
-    private Skill python;
-    private Skill analytics;
+    private Skill a;
+    private Skill b;
+    private Skill c;
+    private Skill d;
 
     
     @BeforeEach
     void runBefore() {
         skills = new Skills();
-        java = new Skill("Java", 2);
-        python = new Skill("Python", 3);
-        analytics = new Skill("Analytics", 5);
+        a = new Skill("a", 2);
+        b = new Skill("b", 3);
+        c = new Skill("c", 4);
+        d = new Skill("d", 5);
+
     }
 
     @Test
@@ -31,48 +34,70 @@ public class TestSkills {
     }
 
     @Test
+    void testTopSkillsEmptySkillsList() {
+        ArrayList<Skill> topSkills = new ArrayList<>();
+        assertEquals(topSkills, skills.topSkills(3));
+    }
+
+    @Test
+    void testTopSkillsReorder() {
+        skills.addSkill(a);
+        skills.addSkill(b);
+        skills.addSkill(c);
+
+        ArrayList<Skill> topSkills;
+        topSkills = skills.topSkills(3);
+
+        assertEquals(c, topSkills.get(0));
+        assertEquals(b, topSkills.get(1));
+        assertEquals(a, topSkills.get(2));
+
+        assertEquals(skills.getSkills().size(), 3);
+    }
+
+    @Test
     void testAddSkill() {
-        skills.addSkill(java);
-        skills.addSkill(python);
+        skills.addSkill(a);
+        skills.addSkill(b);
 
         ArrayList<Skill> skillsList = skills.getSkills();
         assertEquals(2, skillsList.size());
-        assertEquals(java, skillsList.get(0));
-        assertEquals(python, skillsList.get(1));
+        assertEquals(a, skillsList.get(0));
+        assertEquals(b, skillsList.get(1));
     }
 
     @Test
     void testAddSkillDuplicate() {
-        skills.addSkill(java);
-        skills.addSkill(java);
+        skills.addSkill(a);
+        skills.addSkill(a);
 
         ArrayList<Skill> skillsList = skills.getSkills();
         assertEquals(1, skillsList.size());
-        assertEquals(java, skillsList.get(0));
+        assertEquals(a, skillsList.get(0));
     }
 
     @Test
     void testRemoveSkill() {
-        skills.addSkill(java);
-        skills.addSkill(python);
+        skills.addSkill(a);
+        skills.addSkill(b);
 
-        skills.removeSkill(java);
+        skills.removeSkill(a);
 
         ArrayList<Skill> skillsList = skills.getSkills();
         assertEquals(1, skillsList.size());
-        assertEquals(python, skillsList.get(0));
+        assertEquals(b, skillsList.get(0));
     }
 
     @Test
     void testRemoveSkillDoesNotExist() {
-        skills.addSkill(java);
-        skills.addSkill(python);
+        skills.addSkill(a);
+        skills.addSkill(b);
 
-        skills.removeSkill(analytics);
+        skills.removeSkill(d);
 
         ArrayList<Skill> skillsList = skills.getSkills();
         assertEquals(2, skillsList.size());
-        assertEquals(java, skillsList.get(0));
-        assertEquals(python, skillsList.get(1));
+        assertEquals(a, skillsList.get(0));
+        assertEquals(b, skillsList.get(1));
     }
 }

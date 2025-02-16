@@ -23,7 +23,18 @@ public class ResumeApp {
     // EFFECTS: runs the resume application
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
     public ResumeApp() {
+        init();
         runResume();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes the lists of data
+    // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
+    private void init() {
+        input = new Scanner(System.in);
+        educationList = new EducationList();
+        experienceList = new ExperienceList();
+        skillsList = new Skills();
     }
 
     // MODIFIES: this
@@ -64,9 +75,89 @@ public class ResumeApp {
             educationCommand();
         } else if (command.equals("s")) {
             skillsCommand();
+        } else if (command.equals("pr")) {
+            printResume();
         } else {
             System.out.println("Selection not valid...");
         }
+    }
+
+    @SuppressWarnings("methodlength")
+    // EFFECTS: prints out the resume
+    private void printResume() {
+        if (profile == null) {
+            System.out.println("\nNo profile found. Please add a profile first.");
+            return;
+        }
+
+        System.out.println("\nHow many experiences would you like to include?");
+        int numExperiences = input.nextInt();
+        input.nextLine();
+        System.out.println("\nHow many top skills would you like to include?");
+        int numSkills = input.nextInt();
+        input.nextLine();
+
+        doubleLine();
+        System.out.println("               RESUME");
+        doubleLine();
+
+        System.out.println(profile.getName());
+        System.out.println(profile.getNumber() + " | " + profile.getEmail() + " | " + profile.getAddress());
+        System.out.println(profile.getObjective());
+
+        singleLine();
+        if (!experienceList.getExperiences().isEmpty()) {
+            System.out.println("\nEXPERIENCE\n");
+            ArrayList<Experience> selectedExperiences = experienceList.getFirstNumLongList(numExperiences);
+            for (Experience e : selectedExperiences) {
+                System.out.println(e.getPosition() + " - " + e.getInstitution());
+                if (e.getEndYear().equals("0")) {
+                    String endYear = "Present";
+                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - " +
+                    endYear);
+                } else {
+                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - " +
+                    e.getEndMonth() + "/" + e.getEndYear());
+                }
+            }
+            singleLine();
+        } else {
+            System.out.println("\nNo experiences to display");
+        }
+
+        if (!experienceList.getExperiences().isEmpty()) {
+            System.out.println("\nEDUCATION\n");
+            for (Education e : educationList.getEducations()) {
+                System.out.println(e.getInstitution() + " - " + e.getLocation());
+                System.out.println("GPA: " + e.getGpa());
+                if (e.getEndYear().equals("0")) {
+                    String endYear = "Present";
+                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - " +
+                    endYear);
+                } else {
+                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - " +
+                    e.getEndMonth() + "/" + e.getEndYear());
+                }
+            }
+            singleLine();
+        } else {
+            System.out.println("\nNo educations to display");
+        }
+
+        if (!skillsList.getSkills().isEmpty()) {
+            System.out.println("\nSKILLS\n");
+            ArrayList<Skill> selectedSkills = skillsList.topSkills(numSkills);
+            for (Skill s : selectedSkills) {
+                System.out.println(s.getTitle() + "Level: " + s.getLevel());
+            }
+            singleLine();
+        } else {
+            System.out.println("\nNo skills to display.");
+        }
+
+        doubleLine();
+        System.out.println("     END OF RESUME");
+        doubleLine();
     }
 
     // MODIFIES: this
@@ -106,6 +197,51 @@ public class ResumeApp {
         skillsList.addSkill(skill);
 
         System.out.println("\nA new skill has been successfully added!");
+    }
+
+    // MODIFIES: this
+    // EFFECTS: allows the user to edit an existing skill
+    private void editSkill() {
+        if (skillsList.getSkills().isEmpty()) {
+            System.out.println("\nNo skills available to edit.");
+        }
+        System.out.println("\nSelect a skill to edit:");
+        for (int i = 0; i < skillsList.getSkills().size(); i++) {
+            System.out.println("\t" + i + " -> " + skillsList.getSkills().get(i).getTitle());
+            System.out.println("Level: " + skillsList.getSkills().get(i).getLevel());
+        }
+        System.out.print("\nEnter the number of the skill you want to edit: ");
+        int index = input.nextInt();
+        input.nextLine();
+
+        if (index < 0 || index >= skillsList.getSkills().size()) {
+            System.out.println("Invalid selection.");
+        }
+
+        Skill selectedSkill = skillsList.getSkills().get(index);
+
+        System.out.println("\nSelect a field to edit:");
+        System.out.println("\t1 -> Skill Title/Name");
+        System.out.println("\t2 -> Proficiency Level (1-5)");
+
+        int choice = input.nextInt();
+        input.nextLine();
+
+        switch (choice) {
+            case 1:
+                System.out.print("\nEnter new skill name: ");
+                selectedSkill.setTitle(input.nextLine());
+                break;
+            case 2:
+                System.out.print("\nEnter new proficiency level (1-10): ");
+                selectedSkill.setLevel(input.nextInt());
+                input.nextLine();
+                break;
+            default:
+                System.out.println("Invalid selection.");
+                return;
+        }
+        System.out.println("\nSkill successfully updated!");
     }   
 
     // MODIFIES: this
@@ -115,8 +251,8 @@ public class ResumeApp {
         String command;
 
         System.out.println("\nSelect from:");
-        System.out.println("\tnx -> add new profile");
-        System.out.println("\tex -> edit profile");
+        System.out.println("\tnp -> add new profile");
+        System.out.println("\tep -> edit profile");
         
         command = input.next();
         command = command.toLowerCase();
@@ -132,28 +268,29 @@ public class ResumeApp {
 
     // MODIFIES: this
     // EFFECTS: adds a new profile to the resume
-    private void newProfile() {
+        private void newProfile() {
+        input.nextLine();
 
-    System.out.println("\nPlease enter your full name: ");
-    String name = input.nextLine();
+        System.out.println("\nPlease enter your full name: ");
+        String name = input.nextLine();
 
-    System.out.println("\nPlease enter your phone number: ");
-    String number = input.nextLine();
+        System.out.println("\nPlease enter your phone number: ");
+        String number = input.nextLine();
 
-    System.out.println("\nPlease enter your email: ");
-    String email = input.nextLine();
+        System.out.println("\nPlease enter your email: ");
+        String email = input.nextLine();
 
-    System.out.println("\nPlease enter your address: ");
-    String address = input.nextLine();
+        System.out.println("\nPlease enter your address: ");
+        String address = input.nextLine();
 
-    System.out.println("\nPlease enter your brief resume objective: ");
-    String objective = input.nextLine();
+        System.out.println("\nPlease enter your brief resume objective: ");
+        String objective = input.nextLine();
 
-    Profile profile = new Profile(name, number, email, address, objective);
-    
-    this.profile = profile;
+        Profile profile = new Profile(name, number, email, address, objective);
+        
+        this.profile = profile;
 
-    System.out.println("\nYour profile has been successfully added!");
+        System.out.println("\nYour profile has been successfully added!");
     }
 
     @SuppressWarnings("methodlength")
@@ -477,19 +614,28 @@ public class ResumeApp {
     }
 
     // EFFECTS: displays menu of options to user
+    // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
     private void displayMenu() {
         System.out.println("\nSelect from:");
         System.out.println("\tp -> profile");
         System.out.println("\tx -> experience");
         System.out.println("\te -> education");
         System.out.println("\ts -> skills");
+        System.out.println("\tpr -> PRINT RESUME");
         System.out.println("\tq -> quit");
     }
 
 
     // EFFECTS: prints out a line of dashes to act as a divider
-    private void printDivider() {
-        System.out.println("------------------------------------");
+    // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
+    private void singleLine() {
+        System.out.println("\n------------------------------------");
+    }
+
+    // EFFECTS: prints out a line of dashes to act as a divider
+    // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
+    private void doubleLine() {
+        System.out.println("\n====================================");
     }
 
 }

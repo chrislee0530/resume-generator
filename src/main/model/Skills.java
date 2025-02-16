@@ -14,7 +14,7 @@ public class Skills {
     // REQUIRES: skills.size() >= 0
     // MODIFIES: this
     // EFFECTS: reorder the skills list from highest to lowest level and
-    //          return the first num number of skills in the list
+    // return the first num number of skills in the list
     public ArrayList<Skill> topSkills(int num) {
         ArrayList<Skill> topSkills = new ArrayList<>();
         ArrayList<Skill> clone = new ArrayList<>(skills);
@@ -22,7 +22,7 @@ public class Skills {
         if (clone.isEmpty()) {
             return topSkills;
         }
-        
+
         int max = clone.get(0).getLevel();
         Skill topSkill = clone.get(0);
 

@@ -12,8 +12,8 @@ public class Experience {
     String description;
 
     // EFFECTS: Constructs a Experience with position, institution, location, start year, end year, and description
-    public Experience (String position, String institution, String location, 
-    String startYear, String startMonth, String endYear, String endMonth, String description) {
+    public Experience(String position, String institution, String location, 
+                String startYear, String startMonth, String endYear, String endMonth, String description) {
         this.position = position;
         this.institution = institution;
         this.location = location;

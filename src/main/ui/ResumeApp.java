@@ -19,7 +19,6 @@ public class ResumeApp {
     private ExperienceList experienceList;
     private Skills skillsList;
 
-
     // EFFECTS: runs the resume application
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
     public ResumeApp() {
@@ -62,7 +61,6 @@ public class ResumeApp {
         System.out.println("\nThanks for using Resume Generator!");
     }
 
-
     // MODIFIES: this
     // EFFECTS: processes user command
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
@@ -93,9 +91,22 @@ public class ResumeApp {
         System.out.println("\nHow many experiences would you like to include?");
         int numExperiences = input.nextInt();
         input.nextLine();
-        System.out.println("\nHow many top skills would you like to include?");
-        int numSkills = input.nextInt();
-        input.nextLine();
+
+        int numSkills = 0;
+        boolean notValid = true;
+        while (notValid) {
+            System.out.println("\nHow many top skills would you like to include?");
+            numSkills = input.nextInt();
+            input.nextLine();
+
+            if (numSkills <= skillsList.getSkills().size()) {
+                break;
+            } else {
+                System.out.println("You only have " + skillsList.getSkills().size()
+                        + " skiils available. Please enter a valid number.");
+            }
+
+        }
 
         doubleLineFrontN();
         System.out.println("               RESUME");
@@ -108,21 +119,22 @@ public class ResumeApp {
         singleLine();
         if (!experienceList.getExperiences().isEmpty()) {
             System.out.println("\nEXPERIENCE\n");
+            experienceList.mostRecentExperiences();
             ArrayList<Experience> selectedExperiences = experienceList.getFirstNumLongList(numExperiences);
             for (Experience e : selectedExperiences) {
                 System.out.println(e.getPosition() + " - " + e.getInstitution());
                 if (e.getEndYear().equals("0")) {
                     String endYear = "Present";
-                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - " +
-                    endYear);
+                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - "
+                            + endYear);
                 } else {
-                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - " +
-                    e.getEndMonth() + "/" + e.getEndYear());
+                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - "
+                            + e.getEndMonth() + "/" + e.getEndYear());
                 }
                 System.out.println(e.getDescription());
                 System.out.println();
             }
-            
+
             singleLine();
         } else {
             System.out.println("\nNo experiences to display");
@@ -130,23 +142,26 @@ public class ResumeApp {
 
         if (!educationList.getEducations().isEmpty()) {
             System.out.println("\nEDUCATION\n");
+            educationList.mostRecentEducations();
             for (Education e : educationList.getEducations()) {
                 System.out.println(e.getInstitution() + " - " + e.getLocation());
                 System.out.println("GPA: " + e.getGpa());
                 if (e.getEndYear().equals("0")) {
                     String endYear = "Present";
-                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - " +
-                    endYear);
+                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - "
+                            + endYear);
                 } else {
-                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - " +
-                    e.getEndMonth() + "/" + e.getEndYear());
+                    System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - "
+                            + e.getEndMonth() + "/" + e.getEndYear());
                 }
                 System.out.println(e.getDescription());
                 System.out.println();
             }
-            
+            singleLine();
+
         } else {
             System.out.println("\nNo educations to display");
+            singleLine();
         }
 
         if (!skillsList.getSkills().isEmpty()) {
@@ -174,7 +189,7 @@ public class ResumeApp {
         System.out.println("\nSelect from:");
         System.out.println("\tns -> add new skill");
         System.out.println("\tes -> edit skill");
-        
+
         command = input.next();
         command = command.toLowerCase();
 
@@ -197,7 +212,7 @@ public class ResumeApp {
 
         System.out.println("\nPlease enter your proficiency level (1-5): ");
         int skillLevel = input.nextInt();
-        input.nextLine(); 
+        input.nextLine();
 
         Skill skill = new Skill(skillTitle, skillLevel);
         skillsList.addSkill(skill);
@@ -205,6 +220,7 @@ public class ResumeApp {
         System.out.println("\nA new skill has been successfully added!");
     }
 
+    @SuppressWarnings("methodlength")
     // MODIFIES: this
     // EFFECTS: allows the user to edit an existing skill
     private void editSkill() {
@@ -248,7 +264,7 @@ public class ResumeApp {
                 return;
         }
         System.out.println("\nSkill successfully updated!");
-    }   
+    }
 
     // MODIFIES: this
     // EFFECTS: processes user command for profile section
@@ -259,7 +275,7 @@ public class ResumeApp {
         System.out.println("\nSelect from:");
         System.out.println("\tnp -> add new profile");
         System.out.println("\tep -> edit profile");
-        
+
         command = input.next();
         command = command.toLowerCase();
 
@@ -274,7 +290,7 @@ public class ResumeApp {
 
     // MODIFIES: this
     // EFFECTS: adds a new profile to the resume
-        private void newProfile() {
+    private void newProfile() {
         input.nextLine();
 
         System.out.println("\nPlease enter your full name: ");
@@ -293,7 +309,7 @@ public class ResumeApp {
         String objective = input.nextLine();
 
         Profile profile = new Profile(name, number, email, address, objective);
-        
+
         this.profile = profile;
 
         System.out.println("\nYour profile has been successfully added!");
@@ -318,7 +334,7 @@ public class ResumeApp {
         int choice = input.nextInt();
         input.nextLine();
 
-        switch(choice) {
+        switch (choice) {
             case 1:
                 System.out.println("\nEnter new full name: ");
                 profile.setName(input.nextLine());
@@ -356,7 +372,7 @@ public class ResumeApp {
         System.out.println("\nSelect from:");
         System.out.println("\tned -> add new education");
         System.out.println("\teed -> edit education");
-        
+
         command = input.next();
         command = command.toLowerCase();
 
@@ -398,7 +414,8 @@ public class ResumeApp {
         System.out.println("\nPlease enter a short description of your education: ");
         String description = input.nextLine();
 
-        Education education = new Education(gpa, institution, location, startYear, startMonth, endYear, endMonth, description);
+        Education education = new Education(gpa, institution, location, startYear, startMonth, endYear, endMonth,
+                description);
         educationList.addEducation(education);
 
         System.out.println("\nA new experience successfully added!");
@@ -415,7 +432,7 @@ public class ResumeApp {
         System.out.println("\nSelect an education to edit:");
         for (int i = 0; i < educationList.getEducations().size(); i++) {
             System.out.println("\t" + i + " -> " + educationList.getEducations().get(i).getInstitution());
-            }
+        }
 
         System.out.print("\nEnter the number of the education you want to edit: ");
         int index = input.nextInt();
@@ -440,46 +457,46 @@ public class ResumeApp {
         input.nextLine();
 
         switch (choice) {
-        case 1:
-            System.out.print("\nEnter new gpa: ");
-            selectedExperience.setGpa(input.nextLine());
-            break;
-        case 2:
-            System.out.print("\nEnter new school: ");
-            selectedExperience.setInstitution(input.nextLine());
-            break;
-        case 3:
-            System.out.print("\nEnter new location: ");
-            selectedExperience.setLocation(input.nextLine());
-            break;
-        case 4:
-            System.out.print("\nEnter new start year: ");
-            selectedExperience.setStartYear(input.nextLine());
-            input.nextLine();
-            break;
-        case 5:
-            System.out.print("\nEnter new start month: ");
-            selectedExperience.setStartMonth(input.nextLine());
-            input.nextLine();
-            break;
-        case 6:
-            System.out.print("\nEnter new end year (0 if ongoing): ");
-            selectedExperience.setEndYear(input.nextLine());
-            input.nextLine();
-            break;
-        case 7:
-            System.out.print("\nEnter new end month (0 if ongoing): ");
-            selectedExperience.setEndMonth(input.nextLine());
-            input.nextLine();
-            break;
-        case 8:
-            System.out.print("\nEnter new description: ");
-            selectedExperience.setDescription(input.nextLine());
-            break;
-        default:
-            System.out.println("Invalid selection.");
-            return;
-    }
+            case 1:
+                System.out.print("\nEnter new gpa: ");
+                selectedExperience.setGpa(input.nextLine());
+                break;
+            case 2:
+                System.out.print("\nEnter new school: ");
+                selectedExperience.setInstitution(input.nextLine());
+                break;
+            case 3:
+                System.out.print("\nEnter new location: ");
+                selectedExperience.setLocation(input.nextLine());
+                break;
+            case 4:
+                System.out.print("\nEnter new start year: ");
+                selectedExperience.setStartYear(input.nextLine());
+                input.nextLine();
+                break;
+            case 5:
+                System.out.print("\nEnter new start month: ");
+                selectedExperience.setStartMonth(input.nextLine());
+                input.nextLine();
+                break;
+            case 6:
+                System.out.print("\nEnter new end year (0 if ongoing): ");
+                selectedExperience.setEndYear(input.nextLine());
+                input.nextLine();
+                break;
+            case 7:
+                System.out.print("\nEnter new end month (0 if ongoing): ");
+                selectedExperience.setEndMonth(input.nextLine());
+                input.nextLine();
+                break;
+            case 8:
+                System.out.print("\nEnter new description: ");
+                selectedExperience.setDescription(input.nextLine());
+                break;
+            default:
+                System.out.println("Invalid selection.");
+                return;
+        }
 
         System.out.println("\nEducation successfully updated!");
     }
@@ -492,7 +509,7 @@ public class ResumeApp {
         System.out.println("\nSelect from:");
         System.out.println("\tnx -> add new experience");
         System.out.println("\tex -> edit experience");
-        
+
         command = input.next();
         command = command.toLowerCase();
 
@@ -534,7 +551,8 @@ public class ResumeApp {
         System.out.println("\nPlease enter a short description of your experience: ");
         String description = input.nextLine();
 
-        Experience experience = new Experience(position, institution, location, startYear, startMonth, endYear, endMonth, description);
+        Experience experience = new Experience(position, institution, location, startYear, startMonth, endYear,
+                endMonth, description);
         experienceList.addExperience(experience);
 
         System.out.println("\nA new experience successfully added!");
@@ -550,74 +568,74 @@ public class ResumeApp {
         }
         System.out.println("\nSelect an experience to edit:");
         for (int i = 0; i < experienceList.getExperiences().size(); i++) {
-        System.out.println("\t" + i + " -> " + experienceList.getExperiences().get(i).getPosition());
+            System.out.println("\t" + i + " -> " + experienceList.getExperiences().get(i).getPosition());
 
-        System.out.print("\nEnter the number of the experience you want to edit: ");
-        int index = input.nextInt();
-        input.nextLine();
-        if (index < 0 || index >= experienceList.getExperiences().size()) {
-            System.out.println("Invalid selection.");
+            System.out.print("\nEnter the number of the experience you want to edit: ");
+            int index = input.nextInt();
+            input.nextLine();
+            if (index < 0 || index >= experienceList.getExperiences().size()) {
+                System.out.println("Invalid selection.");
+            }
+
+            Experience selectedExperience = experienceList.getExperiences().get(index);
+
+            System.out.println("\nSelect a field to edit:");
+            System.out.println("\t1 -> Position");
+            System.out.println("\t2 -> Institution");
+            System.out.println("\t3 -> Location");
+            System.out.println("\t4 -> Start Year");
+            System.out.println("\t5 -> Start Month");
+            System.out.println("\t6 -> End Year");
+            System.out.println("\t7 -> End Month");
+            System.out.println("\t8 -> Description");
+
+            int choice = input.nextInt();
+            input.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("\nEnter new position: ");
+                    selectedExperience.setPosition(input.nextLine());
+                    break;
+                case 2:
+                    System.out.print("\nEnter new institution: ");
+                    selectedExperience.setInstitution(input.nextLine());
+                    break;
+                case 3:
+                    System.out.print("\nEnter new location: ");
+                    selectedExperience.setLocation(input.nextLine());
+                    break;
+                case 4:
+                    System.out.print("\nEnter new start year: ");
+                    selectedExperience.setStartYear(input.nextLine());
+                    input.nextLine();
+                    break;
+                case 5:
+                    System.out.print("\nEnter new start month: ");
+                    selectedExperience.setStartMonth(input.nextLine());
+                    input.nextLine();
+                    break;
+                case 6:
+                    System.out.print("\nEnter new end year (0 if ongoing): ");
+                    selectedExperience.setEndYear(input.nextLine());
+                    input.nextLine();
+                    break;
+                case 7:
+                    System.out.print("\nEnter new end month (0 if ongoing): ");
+                    selectedExperience.setEndMonth(input.nextLine());
+                    input.nextLine();
+                    break;
+                case 8:
+                    System.out.print("\nEnter new description: ");
+                    selectedExperience.setDescription(input.nextLine());
+                    break;
+                default:
+                    System.out.println("Invalid selection.");
+                    return;
+            }
+
+            System.out.println("\nExperience successfully updated!");
         }
-
-        Experience selectedExperience = experienceList.getExperiences().get(index);
-
-        System.out.println("\nSelect a field to edit:");
-        System.out.println("\t1 -> Position");
-        System.out.println("\t2 -> Institution");
-        System.out.println("\t3 -> Location");
-        System.out.println("\t4 -> Start Year");
-        System.out.println("\t5 -> Start Month");
-        System.out.println("\t6 -> End Year");
-        System.out.println("\t7 -> End Month");
-        System.out.println("\t8 -> Description");
-
-        int choice = input.nextInt();
-        input.nextLine();
-
-        switch (choice) {
-        case 1:
-            System.out.print("\nEnter new position: ");
-            selectedExperience.setPosition(input.nextLine());
-            break;
-        case 2:
-            System.out.print("\nEnter new institution: ");
-            selectedExperience.setInstitution(input.nextLine());
-            break;
-        case 3:
-            System.out.print("\nEnter new location: ");
-            selectedExperience.setLocation(input.nextLine());
-            break;
-        case 4:
-            System.out.print("\nEnter new start year: ");
-            selectedExperience.setStartYear(input.nextLine());
-            input.nextLine();
-            break;
-        case 5:
-            System.out.print("\nEnter new start month: ");
-            selectedExperience.setStartMonth(input.nextLine());
-            input.nextLine();
-            break;
-        case 6:
-            System.out.print("\nEnter new end year (0 if ongoing): ");
-            selectedExperience.setEndYear(input.nextLine());
-            input.nextLine();
-            break;
-        case 7:
-            System.out.print("\nEnter new end month (0 if ongoing): ");
-            selectedExperience.setEndMonth(input.nextLine());
-            input.nextLine();
-            break;
-        case 8:
-            System.out.print("\nEnter new description: ");
-            selectedExperience.setDescription(input.nextLine());
-            break;
-        default:
-            System.out.println("Invalid selection.");
-            return;
-    }
-
-        System.out.println("\nExperience successfully updated!");
-    }
 
     }
 
@@ -633,20 +651,21 @@ public class ResumeApp {
         System.out.println("\tq -> quit");
     }
 
-
     // EFFECTS: prints out a line of dashes to act as a divider
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
     private void singleLine() {
         System.out.println("\n------------------------------------");
     }
 
-    // EFFECTS: prints out a double line of dashes to act as a divider (new line at the beginning)
+    // EFFECTS: prints out a double line of dashes to act as a divider (new line at
+    // the beginning)
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
     private void doubleLineFrontN() {
         System.out.println("\n====================================");
     }
 
-    // EFFECTS: prints out a double line of dashes to act as a divider (new line at the end)
+    // EFFECTS: prints out a double line of dashes to act as a divider (new line at
+    // the end)
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
     private void doubleLineBackN() {
         System.out.println("====================================\n");

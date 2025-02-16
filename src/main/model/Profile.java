@@ -7,7 +7,6 @@ public class Profile {
     String email;
     String address;
     String objective;
-    
 
     // EFFECTS: constructs a new profile with given information
     public Profile(String name, String number, String email, String address, String objective) {
@@ -22,7 +21,7 @@ public class Profile {
     public String getName() {
         return name; // stub
     }
-    
+
     // EFFECTS: returns the user's phone number
     public String getNumber() {
         return number; // stub

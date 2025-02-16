@@ -16,7 +16,7 @@ public class ExperienceList {
     public void mostRecentExperiences() {
         ArrayList<Experience> holder = new ArrayList<>();
 
-        while(!experienceList.isEmpty()) {
+        while (!experienceList.isEmpty()) {
             int maxMonths = -1;
             Experience recentExperience = null;
             for (Experience experience : experienceList) {
@@ -46,7 +46,7 @@ public class ExperienceList {
     public void mostExperiencedExperiences() {
         ArrayList<Experience> holder = new ArrayList<>();
 
-        while(!experienceList.isEmpty()) {
+        while (!experienceList.isEmpty()) {
             int maxMonths = -1;
             Experience experiencedExperience = null;
             for (Experience experience : experienceList) {
@@ -82,7 +82,7 @@ public class ExperienceList {
 
     // MODIFIES: this
     // EFFECTS: removes an experience from the list if it exists
-    public void removeExperience (Experience experience) {
+    public void removeExperience(Experience experience) {
         if (experienceList.contains(experience)) {
             experienceList.remove(experience);
         }

@@ -15,7 +15,7 @@ public class Skill {
     public String getTitle() {
         return title;
     }
-    
+
     // MODIFIES: this
     // EFFECTS: sets the title of the skill
     public void setTitle(String title) {
@@ -26,13 +26,11 @@ public class Skill {
     public int getLevel() {
         return level;
     }
-    
+
     // MODIFIES: this
     // EFFECTS: sets the level of the skill
     public void setLevel(int level) {
         this.level = level;
     }
-
-
 
 }

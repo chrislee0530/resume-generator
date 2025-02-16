@@ -5,7 +5,7 @@ import java.util.ArrayList;
 // Represents all educations of the user
 public class EducationList {
     private ArrayList<Education> educationList;
-    
+
     // EFFECTS: constructs an empty list of educations
     public EducationList() {
         educationList = new ArrayList<>();
@@ -16,7 +16,7 @@ public class EducationList {
     public void mostRecentEducations() {
         ArrayList<Education> holder = new ArrayList<>();
 
-        while(!educationList.isEmpty()) {
+        while (!educationList.isEmpty()) {
             int maxMonths = -1;
             Education recentEducation = null;
             for (Education education : educationList) {
@@ -24,7 +24,7 @@ public class EducationList {
                 int endY = Integer.parseInt(endYString);
                 String endMString = education.getEndMonth();
                 int endM = Integer.parseInt(endMString);
-                
+
                 int educationMonths = endY * 12 + endM;
                 if (endY == 0) {
                     recentEducation = education;
@@ -41,7 +41,6 @@ public class EducationList {
         educationList.addAll(holder);
     }
 
-
     // MODIFIES: this
     // EFFECTS: adds a new education to the list, unless there already exists one
     public void addEducation(Education education) {
@@ -52,7 +51,7 @@ public class EducationList {
 
     // MODIFIES: this
     // EFFECTS: removes an education from the list if it exists
-    public void removeEducation (Education education) {
+    public void removeEducation(Education education) {
         if (educationList.contains(education)) {
             educationList.remove(education);
         }

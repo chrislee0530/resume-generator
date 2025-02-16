@@ -17,32 +17,32 @@ public class TestEducationList {
 
     @BeforeEach
     public void runBefore() {
-        educationA = new Education(1, 
+        educationA = new Education("1", 
         "educationA", 
         "educationA", 
-        2005, 9, 
-        2010, 12,
+        "2005", "9", 
+        "2010", "12",
         "educationA");
 
-        educationB = new Education(2, 
+        educationB = new Education("2", 
         "educationB", 
         "educationB", 
-        2020, 8, 
-        2023, 12,
+        "2020", "8", 
+        "2023", "12",
         "educationB");
 
-        educationC = new Education(3, 
+        educationC = new Education("3", 
         "educationC", 
         "educationC", 
-        2022, 8, 
-        0, 0,
+        "2022", "8", 
+        "0", "0",
         "educationC");
 
-        educationD = new Education(4, 
+        educationD = new Education("4", 
         "educationD", 
         "educationD", 
-        2019, 8, 
-        2023, 8,
+        "2019", "8", 
+        "2023", "8",
         "educationD");
 
         educationList = new EducationList();

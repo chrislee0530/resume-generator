@@ -5,15 +5,15 @@ public class Experience {
     String position;
     String institution;
     String location;
-    int startYear;
-    int startMonth;
-    int endYear;
-    int endMonth;
+    String startYear;
+    String startMonth;
+    String endYear;
+    String endMonth;
     String description;
 
     // EFFECTS: Constructs a Experience with position, institution, location, start year, end year, and description
     public Experience (String position, String institution, String location, 
-    int startYear, int startMonth, int endYear, int endMonth, String description) {
+    String startYear, String startMonth, String endYear, String endMonth, String description) {
         this.position = position;
         this.institution = institution;
         this.location = location;
@@ -27,11 +27,19 @@ public class Experience {
     // EFFECTS: Returns the total duration of the experience in months
     public int getTotalDuration() {
         int totalDuration = 0;
+        int endY;
+        int startY;
+        int endM;
+        int startM;
+        endY = Integer.parseInt(endYear);
+        startY = Integer.parseInt(startYear);
+        endM = Integer.parseInt(endMonth);
+        startM = Integer.parseInt(startMonth);
 
-        if (endYear == 0) {
+        if (endY == 0) {
             return totalDuration;
         } else {
-            totalDuration = ((endYear - startYear) * 12) + (endMonth - startMonth);
+            totalDuration = ((endY - startY) * 12) + (endM - startM);
         }
 
         return totalDuration;
@@ -72,48 +80,48 @@ public class Experience {
     }
 
     // EFFECTS: Returns the start year
-    public int getStartYear() {
+    public String getStartYear() {
         return startYear;
     }
 
     // MODIFIES: this
     // EFFECTS: sets the start year to the given value
-    public void setStartYear(int startYear) {
+    public void setStartYear(String startYear) {
         this.startYear = startYear;
     }
 
     // EFFECTS: Returns the start month
-    public int getStartMonth() {
+    public String getStartMonth() {
         return startMonth;
     }
 
     // REQUIRES: 0 < startMonth < 13
     // MODIFIES: this
     // EFFECTS: sets the start month to startMonth
-    public void setStartMonth(int startMonth) {
+    public void setStartMonth(String startMonth) {
         this.startMonth = startMonth;
     }
 
     // EFFECTS: Returns the end year
-    public int getEndYear() {
+    public String getEndYear() {
         return endYear;
     }
 
     // MODIFIES: this
     // EFFECTS: sets the end year to the given value
-    public void setEndYear(int endYear) {
+    public void setEndYear(String endYear) {
         this.endYear = endYear;
     }
 
     // EFFECTS: Returns the end month
-    public int getEndMonth() {
+    public String getEndMonth() {
         return endMonth;
     }
 
     // REQUIRES: 0 < endMonth < 13
     // MODIFIES: this
     // EFFECTS: sets the end month to endMonth
-    public void setEndMonth(int endMonth) {
+    public void setEndMonth(String endMonth) {
         this.endMonth = endMonth;
     }
 

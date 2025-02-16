@@ -20,8 +20,13 @@ public class EducationList {
             int maxMonths = -1;
             Education recentEducation = null;
             for (Education education : educationList) {
-                int educationMonths = education.getEndYear() * 12 + education.getEndMonth();
-                if (education.getEndYear() == 0) {
+                String endYString = education.getEndYear();
+                int endY = Integer.parseInt(endYString);
+                String endMString = education.getEndMonth();
+                int endM = Integer.parseInt(endMString);
+                
+                int educationMonths = endY * 12 + endM;
+                if (endY == 0) {
                     recentEducation = education;
                     break;
                 }

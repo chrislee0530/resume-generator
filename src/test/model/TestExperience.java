@@ -14,15 +14,15 @@ public class TestExperience {
         productManager = new Experience("Product Manager", 
         "Microsoft", 
         "Vancouver", 
-        2020, 8, 
-        2023, 12,
+        "2020", "8", 
+        "2023", "12",
         "Copilot prototyping");
 
         professor = new Experience("Professor", 
         "UBC Sauder", 
         "Vancouver", 
-        2005, 9, 
-        0, 0,
+        "2005", "9", 
+        "0", "0",
         "COMM 190 Professor");
     }
 
@@ -30,10 +30,10 @@ public class TestExperience {
     void testConstructor() {
         assertEquals("Microsoft", productManager.getInstitution());
         assertEquals("Vancouver", productManager.getLocation());
-        assertEquals(2020, productManager.getStartYear());
-        assertEquals(8, productManager.getStartMonth());
-        assertEquals(2023, productManager.getEndYear());
-        assertEquals(12, productManager.getEndMonth());
+        assertEquals("2020", productManager.getStartYear());
+        assertEquals("8", productManager.getStartMonth());
+        assertEquals("2023", productManager.getEndYear());
+        assertEquals("12", productManager.getEndMonth());
         assertEquals("Copilot prototyping", productManager.getDescription());
     }
 
@@ -67,26 +67,26 @@ public class TestExperience {
 
     @Test
     void testSetStartYear() {
-        productManager.setStartYear(2024);
-        assertEquals(2024, productManager.getStartYear());
+        productManager.setStartYear("2024");
+        assertEquals("2024", productManager.getStartYear());
     }
 
     @Test
     void testSetStartMonth() {
-        productManager.setStartMonth(5);
-        assertEquals(5, productManager.getStartMonth());
+        productManager.setStartMonth("5");
+        assertEquals("5", productManager.getStartMonth());
     }
 
     @Test
     void testSetEndYear() {
-        productManager.setEndYear(2028);
-        assertEquals(2028, productManager.getEndYear());
+        productManager.setEndYear("2028");
+        assertEquals("2028", productManager.getEndYear());
     }
 
     @Test
     void testSetEndMonth() {
-        productManager.setEndMonth(3);
-        assertEquals(3, productManager.getEndMonth());
+        productManager.setEndMonth("3");
+        assertEquals("3", productManager.getEndMonth());
     }
 
     @Test

@@ -20,8 +20,13 @@ public class ExperienceList {
             int maxMonths = -1;
             Experience recentExperience = null;
             for (Experience experience : experienceList) {
-                int experienceMonths = experience.getEndYear() * 12 + experience.getEndMonth();
-                if (experience.getEndYear() == 0) {
+                String endYString = experience.getEndYear();
+                int endY = Integer.parseInt(endYString);
+                String endMString = experience.getEndMonth();
+                int endM = Integer.parseInt(endMString);
+
+                int experienceMonths = endY * 12 + endM;
+                if (endY == 0) {
                     recentExperience = experience;
                     break;
                 }

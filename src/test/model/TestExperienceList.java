@@ -19,29 +19,29 @@ public class TestExperienceList {
         experienceA = new Experience("Professor", 
         "UBC Sauder", 
         "Vancouver", 
-        2005, 9, 
-        2010, 12,
+        "2005", "9", 
+        "2010", "12",
         "COMM 190 Professor");
 
         experienceB = new Experience("Product Manager", 
         "Microsoft", 
         "Seattle", 
-        2020, 8, 
-        2023, 12,
+        "2020", "8", 
+        "2023", "12",
         "Copilot prototyping");
 
         experienceC = new Experience("experienceC", 
         "experienceC", 
         "experienceC", 
-        2022, 8, 
-        0, 0,
+        "2022", "8", 
+        "0", "0",
         "experienceC");
 
         experienceD = new Experience("experienceD", 
         "experienceD", 
         "experienceD", 
-        2019, 8, 
-        2023, 8,
+        "2019", "8", 
+        "2023", "8",
         "experienceD");
 
         experienceList = new ExperienceList();

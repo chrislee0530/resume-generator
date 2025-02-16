@@ -167,8 +167,8 @@ public class ResumeApp {
         String command;
 
         System.out.println("\nSelect from:");
-        System.out.println("\tnx -> add new skill");
-        System.out.println("\tex -> edit skill");
+        System.out.println("\tns -> add new skill");
+        System.out.println("\tes -> edit skill");
         
         command = input.next();
         command = command.toLowerCase();
@@ -185,6 +185,7 @@ public class ResumeApp {
     // MODIFIES: this
     // EFFECTS: adds a new skill to the skills list
     private void newSkill() {
+        input.nextLine();
 
         System.out.println("\nPlease enter the skill title/name: ");
         String skillTitle = input.nextLine();
@@ -348,8 +349,8 @@ public class ResumeApp {
         String command;
 
         System.out.println("\nSelect from:");
-        System.out.println("\tnx -> add new education");
-        System.out.println("\tex -> edit education");
+        System.out.println("\tned -> add new education");
+        System.out.println("\teed -> edit education");
         
         command = input.next();
         command = command.toLowerCase();
@@ -366,6 +367,7 @@ public class ResumeApp {
     // MODIFIES: this
     // EFFECTS: adds a new education to the education list
     private void newEducation() {
+        input.nextLine();
 
         System.out.println("\nPlease enter the institution name: ");
         String institution = input.nextLine();
@@ -501,6 +503,7 @@ public class ResumeApp {
     // MODIFIES: this
     // EFFECTS: adds a new experience to the experience list
     private void newExperience() {
+        input.nextLine();
 
         System.out.println("\nPlease enter the position: ");
         String position = input.nextLine();

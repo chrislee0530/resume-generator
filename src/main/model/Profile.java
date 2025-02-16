@@ -19,27 +19,27 @@ public class Profile {
 
     // EFFECTS: returns the user's name
     public String getName() {
-        return name; // stub
+        return name;
     }
 
     // EFFECTS: returns the user's phone number
     public String getNumber() {
-        return number; // stub
+        return number;
     }
 
     // EFFECTS: returns the user's email address
     public String getEmail() {
-        return email; // stub
+        return email;
     }
 
     // EFFECTS: returns the user's home address
     public String getAddress() {
-        return address; // stub
+        return address;
     }
 
     // EFFECTS: returns a short reusme objective sentences
     public String getObjective() {
-        return objective; // stub
+        return objective;
     }
 
     // MODIFIES: this

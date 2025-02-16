@@ -1,39 +1,21 @@
 package model;
 
-// Represents education history of the user
-public class Education {
-    String gpa;
+// Represents a general section of a resume
+public abstract class ResumeSection {
     String institution;
     String location;
     String startYear;
-    String startMonth;
     String endYear;
-    String endMonth;
     String description;
+    
 
-    // EFFECTS: Constructs a new experience with institution, locaiton, startYear,
-    // endYear, and description
-    public Education(String gpa, String institution, String location,
-            String startYear, String startMonth, String endYear, String endMonth, String description) {
-        this.gpa = gpa;
+    // EFFECTS: Constructs a ResumeSection with the given institution, location, start year, end year, and description
+    public ResumeSection(String institution, String location, String startYear, String endYear, String description) {
         this.institution = institution;
         this.location = location;
         this.startYear = startYear;
-        this.startMonth = startMonth;
         this.endYear = endYear;
-        this.endMonth = endMonth;
         this.description = description;
-
-    }
-
-    // EFFECTS: returns the gpa
-    public String getGpa() {
-        return gpa;
-    }
-
-    // EFFECTS: sets the gpa with given value
-    public void setGpa(String gpa) {
-        this.gpa = gpa;
     }
 
     // EFFECTS: Returns the institution name
@@ -69,18 +51,6 @@ public class Education {
         this.startYear = startYear;
     }
 
-    // EFFECTS: Returns the start month
-    public String getStartMonth() {
-        return startMonth;
-    }
-
-    // REQUIRES: 0 < startMonth < 13
-    // MODIFIES: this
-    // EFFECTS: sets the start month to startMonth
-    public void setStartMonth(String startMonth) {
-        this.startMonth = startMonth;
-    }
-
     // EFFECTS: Returns the end year
     public String getEndYear() {
         return endYear;
@@ -90,18 +60,6 @@ public class Education {
     // EFFECTS: sets the end year to the given value
     public void setEndYear(String endYear) {
         this.endYear = endYear;
-    }
-
-    // EFFECTS: Returns the end month
-    public String getEndMonth() {
-        return endMonth;
-    }
-
-    // REQUIRES: 0 < endMonth < 13
-    // MODIFIES: this
-    // EFFECTS: sets the end month to endMonth
-    public void setEndMonth(String endMonth) {
-        this.endMonth = endMonth;
     }
 
     // EFFECTS: Returns the description of the section
@@ -114,5 +72,6 @@ public class Education {
     public void setDescription(String description) {
         this.description = description;
     }
+
 
 }

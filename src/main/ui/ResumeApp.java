@@ -59,7 +59,7 @@ public class ResumeApp {
             }
         }
 
-        System.out.println("\nGoodbye!");
+        System.out.println("\nThanks for using Resume Generator!");
     }
 
 
@@ -97,9 +97,9 @@ public class ResumeApp {
         int numSkills = input.nextInt();
         input.nextLine();
 
-        doubleLine();
+        doubleLineFrontN();
         System.out.println("               RESUME");
-        doubleLine();
+        doubleLineBackN();
 
         System.out.println(profile.getName());
         System.out.println(profile.getNumber() + " | " + profile.getEmail() + " | " + profile.getAddress());
@@ -119,13 +119,16 @@ public class ResumeApp {
                     System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - " +
                     e.getEndMonth() + "/" + e.getEndYear());
                 }
+                System.out.println(e.getDescription());
+                System.out.println();
             }
+            
             singleLine();
         } else {
             System.out.println("\nNo experiences to display");
         }
 
-        if (!experienceList.getExperiences().isEmpty()) {
+        if (!educationList.getEducations().isEmpty()) {
             System.out.println("\nEDUCATION\n");
             for (Education e : educationList.getEducations()) {
                 System.out.println(e.getInstitution() + " - " + e.getLocation());
@@ -138,8 +141,10 @@ public class ResumeApp {
                     System.out.println(e.getLocation() + " | " + e.getStartMonth() + "/" + e.getStartYear() + " - " +
                     e.getEndMonth() + "/" + e.getEndYear());
                 }
+                System.out.println(e.getDescription());
+                System.out.println();
             }
-            singleLine();
+            
         } else {
             System.out.println("\nNo educations to display");
         }
@@ -148,16 +153,16 @@ public class ResumeApp {
             System.out.println("\nSKILLS\n");
             ArrayList<Skill> selectedSkills = skillsList.topSkills(numSkills);
             for (Skill s : selectedSkills) {
-                System.out.println(s.getTitle() + "Level: " + s.getLevel());
+                System.out.println(s.getTitle() + " | " + "Level: " + s.getLevel());
             }
             singleLine();
         } else {
             System.out.println("\nNo skills to display.");
         }
 
-        doubleLine();
-        System.out.println("     END OF RESUME");
-        doubleLine();
+        doubleLineFrontN();
+        System.out.println("           END OF RESUME");
+        doubleLineBackN();
     }
 
     // MODIFIES: this
@@ -369,7 +374,7 @@ public class ResumeApp {
     private void newEducation() {
         input.nextLine();
 
-        System.out.println("\nPlease enter the institution name: ");
+        System.out.println("\nPlease enter the school name: ");
         String institution = input.nextLine();
 
         System.out.println("\nPlease enter the location: ");
@@ -390,7 +395,7 @@ public class ResumeApp {
         System.out.println("\nPlease enter the ending month (0, if ongoing): ");
         String endMonth = input.nextLine();
 
-        System.out.println("\nPlease enter a short description of your experience: ");
+        System.out.println("\nPlease enter a short description of your education: ");
         String description = input.nextLine();
 
         Education education = new Education(gpa, institution, location, startYear, startMonth, endYear, endMonth, description);
@@ -440,7 +445,7 @@ public class ResumeApp {
             selectedExperience.setGpa(input.nextLine());
             break;
         case 2:
-            System.out.print("\nEnter new institution: ");
+            System.out.print("\nEnter new school: ");
             selectedExperience.setInstitution(input.nextLine());
             break;
         case 3:
@@ -635,10 +640,16 @@ public class ResumeApp {
         System.out.println("\n------------------------------------");
     }
 
-    // EFFECTS: prints out a line of dashes to act as a divider
+    // EFFECTS: prints out a double line of dashes to act as a divider (new line at the beginning)
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
-    private void doubleLine() {
+    private void doubleLineFrontN() {
         System.out.println("\n====================================");
+    }
+
+    // EFFECTS: prints out a double line of dashes to act as a divider (new line at the end)
+    // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
+    private void doubleLineBackN() {
+        System.out.println("====================================\n");
     }
 
 }

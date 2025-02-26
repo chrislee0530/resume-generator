@@ -13,3 +13,5 @@ The users will get to enter their information in response to specific prompts. A
 - As a user, I want to select a **section** and edit the information
 - As a user, I want to delete a **section** from my resume
 - As a user, I want to view the final version of my resume
+- As a user, when I select the quit option from the application menu, I want to be reminded to save all resume information (educations, experiences, skills, etc.) to file and have the option to do so or not
+- As a user, when I start the application, I want to be given the option to load my resume information from file.

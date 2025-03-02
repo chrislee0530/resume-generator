@@ -108,7 +108,7 @@ public class ExperienceList implements Writable{
 
     // EFFECTS: returns experiences as a JSON array
     // NOTE: CODE BASED OFF OF DEMO APPLICATION
-    private JSONArray toJsonArray() {
+    public JSONArray toJsonArray() {
         JSONArray jsonArray = new JSONArray();
 
         for (Experience e : experienceList) {

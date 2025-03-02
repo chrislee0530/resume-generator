@@ -77,7 +77,7 @@ public class Skills implements Writable {
 
     // EFFECTS: returns skills as a JSON array
     // NOTE: CODE BASED OFF OF DEMO APPLICATION
-    private JSONArray toJsonArray() {
+    public JSONArray toJsonArray() {
         JSONArray jsonArray = new JSONArray();
 
         for (Skill s : skills) {

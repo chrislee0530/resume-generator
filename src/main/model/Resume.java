@@ -27,9 +27,9 @@ public class Resume implements Writable{
         if (profile != null) {
             json.put("profile", profile.toJson());
         }
-        json.put("experiences", experienceList.toJson());
-        json.put("educations", educationList.toJson());
-        json.put("skills", skillsList.toJson());
+        json.put("experiences", experienceList.toJsonArray());
+        json.put("educations", educationList.toJsonArray());
+        json.put("skills", skillsList.toJsonArray());
         return json;
     }
 

@@ -3,21 +3,12 @@ package ui;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import model.Education;
-import model.EducationList;
-import model.Experience;
-import model.ExperienceList;
-import model.Profile;
-import model.Skill;
-import model.Skills;
+import model.*;
 
 // Resume Application
 public class ResumeApp {
     private Scanner input;
-    private Profile profile;
-    private EducationList educationList;
-    private ExperienceList experienceList;
-    private Skills skillsList;
+    private Resume resume;
 
     // EFFECTS: runs the resume application
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
@@ -31,9 +22,7 @@ public class ResumeApp {
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
     private void init() {
         input = new Scanner(System.in);
-        educationList = new EducationList();
-        experienceList = new ExperienceList();
-        skillsList = new Skills();
+        resume = new Resume();
     }
 
     // MODIFIES: this
@@ -83,7 +72,7 @@ public class ResumeApp {
     @SuppressWarnings("methodlength")
     // EFFECTS: prints out the resume
     private void printResume() {
-        if (profile == null) {
+        if (resume.getProfile() == null) {
             System.out.println("\nNo profile found. Please add a profile first.");
             return;
         }
@@ -99,10 +88,10 @@ public class ResumeApp {
             numSkills = input.nextInt();
             input.nextLine();
 
-            if (numSkills <= skillsList.getSkills().size()) {
+            if (numSkills <= resume.getSkillsList().getSkills().size()) {
                 break;
             } else {
-                System.out.println("You only have " + skillsList.getSkills().size()
+                System.out.println("You only have " + resume.getSkillsList().getSkills().size()
                         + " skiils available. Please enter a valid number.");
             }
 
@@ -112,15 +101,16 @@ public class ResumeApp {
         System.out.println("               RESUME");
         doubleLineBackN();
 
-        System.out.println(profile.getName());
-        System.out.println(profile.getNumber() + " | " + profile.getEmail() + " | " + profile.getAddress());
-        System.out.println(profile.getObjective());
+        System.out.println(resume.getProfile().getName());
+        System.out.println(resume.getProfile().getNumber() + " | " + resume.getProfile().getEmail() 
+        + " | " + resume.getProfile().getAddress());
+        System.out.println(resume.getProfile().getObjective());
 
         singleLine();
-        if (!experienceList.getExperiences().isEmpty()) {
+        if (!resume.getExperienceList().getExperiences().isEmpty()) {
             System.out.println("\nEXPERIENCE\n");
-            experienceList.mostRecentExperiences();
-            ArrayList<Experience> selectedExperiences = experienceList.getFirstNumLongList(numExperiences);
+            resume.getExperienceList().mostRecentExperiences();
+            ArrayList<Experience> selectedExperiences = resume.getExperienceList().getFirstNumLongList(numExperiences);
             for (Experience e : selectedExperiences) {
                 System.out.println(e.getPosition() + " - " + e.getInstitution());
                 if (e.getEndYear().equals("0")) {
@@ -140,10 +130,10 @@ public class ResumeApp {
             System.out.println("\nNo experiences to display");
         }
 
-        if (!educationList.getEducations().isEmpty()) {
+        if (!resume.getEducationList().getEducations().isEmpty()) {
             System.out.println("\nEDUCATION\n");
-            educationList.mostRecentEducations();
-            for (Education e : educationList.getEducations()) {
+            resume.getEducationList().mostRecentEducations();
+            for (Education e : resume.getEducationList().getEducations()) {
                 System.out.println(e.getInstitution() + " - " + e.getLocation());
                 System.out.println("GPA: " + e.getGpa());
                 if (e.getEndYear().equals("0")) {
@@ -164,9 +154,9 @@ public class ResumeApp {
             singleLine();
         }
 
-        if (!skillsList.getSkills().isEmpty()) {
+        if (!resume.getSkillsList().getSkills().isEmpty()) {
             System.out.println("\nSKILLS\n");
-            ArrayList<Skill> selectedSkills = skillsList.topSkills(numSkills);
+            ArrayList<Skill> selectedSkills = resume.getSkillsList().topSkills(numSkills);
             for (Skill s : selectedSkills) {
                 System.out.println(s.getTitle() + " | " + "Level: " + s.getLevel());
             }
@@ -215,7 +205,7 @@ public class ResumeApp {
         input.nextLine();
 
         Skill skill = new Skill(skillTitle, skillLevel);
-        skillsList.addSkill(skill);
+        resume.getSkillsList().addSkill(skill);
 
         System.out.println("\nA new skill has been successfully added!");
     }
@@ -224,23 +214,24 @@ public class ResumeApp {
     // MODIFIES: this
     // EFFECTS: allows the user to edit an existing skill
     private void editSkill() {
-        if (skillsList.getSkills().isEmpty()) {
+        if (resume.getSkillsList().getSkills().isEmpty()) {
             System.out.println("\nNo skills available to edit.");
+            return;
         }
         System.out.println("\nSelect a skill to edit:");
-        for (int i = 0; i < skillsList.getSkills().size(); i++) {
-            System.out.println("\t" + i + " -> " + skillsList.getSkills().get(i).getTitle());
-            System.out.println("Level: " + skillsList.getSkills().get(i).getLevel());
+        for (int i = 0; i < resume.getSkillsList().getSkills().size(); i++) {
+            System.out.println("\t" + i + " -> " + resume.getSkillsList().getSkills().get(i).getTitle());
+            System.out.println("Level: " + resume.getSkillsList().getSkills().get(i).getLevel());
         }
         System.out.print("\nEnter the number of the skill you want to edit: ");
         int index = input.nextInt();
         input.nextLine();
 
-        if (index < 0 || index >= skillsList.getSkills().size()) {
+        if (index < 0 || index >= resume.getSkillsList().getSkills().size()) {
             System.out.println("Invalid selection.");
         }
 
-        Skill selectedSkill = skillsList.getSkills().get(index);
+        Skill selectedSkill = resume.getSkillsList().getSkills().get(index);
 
         System.out.println("\nSelect a field to edit:");
         System.out.println("\t1 -> Skill Title/Name");
@@ -308,9 +299,7 @@ public class ResumeApp {
         System.out.println("\nPlease enter your brief resume objective: ");
         String objective = input.nextLine();
 
-        Profile profile = new Profile(name, number, email, address, objective);
-
-        this.profile = profile;
+        resume.setProfile(new Profile(name, number, email, address, objective));
 
         System.out.println("\nYour profile has been successfully added!");
     }
@@ -320,8 +309,9 @@ public class ResumeApp {
     // EFFECTS: allows user to edit their profile details
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
     private void editProfile() {
-        if (profile == null) {
+        if (resume.getProfile() == null) {
             System.out.println("\nNo profile available to edit. Please create one first");
+            return;
         }
 
         System.out.println("\nSelect a field to edit:");
@@ -337,23 +327,23 @@ public class ResumeApp {
         switch (choice) {
             case 1:
                 System.out.println("\nEnter new full name: ");
-                profile.setName(input.nextLine());
+                resume.getProfile().setName(input.nextLine());
                 break;
             case 2:
                 System.out.println("\nEnter new phone number: ");
-                profile.setNumber(input.nextLine());
+                resume.getProfile().setNumber(input.nextLine());
                 break;
             case 3:
                 System.out.println("\nEnter new email: ");
-                profile.setEmail(input.nextLine());
+                resume.getProfile().setEmail(input.nextLine());
                 break;
             case 4:
                 System.out.println("\nEnter new address: ");
-                profile.setAddress(input.nextLine());
+                resume.getProfile().setAddress(input.nextLine());
                 break;
             case 5:
                 System.out.println("\nEnter new resume objective: ");
-                profile.setObjective(input.nextLine());
+                resume.getProfile().setObjective(input.nextLine());
                 break;
             default:
                 System.out.println("Invalid selection.");
@@ -416,9 +406,9 @@ public class ResumeApp {
 
         Education education = new Education(gpa, institution, location, startYear, startMonth, endYear, endMonth,
                 description);
-        educationList.addEducation(education);
+        resume.addEducation(education);
 
-        System.out.println("\nA new experience successfully added!");
+        System.out.println("\nA new education successfully added!");
     }
 
     @SuppressWarnings("methodlength")
@@ -426,22 +416,23 @@ public class ResumeApp {
     // EFFECTS: allows user to edit an existing education
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
     public void editEducation() {
-        if (educationList.getEducations().isEmpty()) {
+        if (resume.getEducationList().getEducations().isEmpty()) {
             System.out.println("\nNo eudcations available to edit.");
+            return;
         }
         System.out.println("\nSelect an education to edit:");
-        for (int i = 0; i < educationList.getEducations().size(); i++) {
-            System.out.println("\t" + i + " -> " + educationList.getEducations().get(i).getInstitution());
+        for (int i = 0; i < resume.getEducationList().getEducations().size(); i++) {
+            System.out.println("\t" + i + " -> " + resume.getEducationList().getEducations().get(i).getInstitution());
         }
 
         System.out.print("\nEnter the number of the education you want to edit: ");
         int index = input.nextInt();
         input.nextLine();
-        if (index < 0 || index >= educationList.getEducations().size()) {
+        if (index < 0 || index >= resume.getEducationList().getEducations().size()) {
             System.out.println("Invalid selection.");
         }
 
-        Education selectedExperience = educationList.getEducations().get(index);
+        Education selectedExperience = resume.getEducationList().getEducations().get(index);
 
         System.out.println("\nSelect a field to edit:");
         System.out.println("\t1 -> GPA");
@@ -553,7 +544,7 @@ public class ResumeApp {
 
         Experience experience = new Experience(position, institution, location, startYear, startMonth, endYear,
                 endMonth, description);
-        experienceList.addExperience(experience);
+        resume.addExperience(experience);
 
         System.out.println("\nA new experience successfully added!");
     }
@@ -563,21 +554,22 @@ public class ResumeApp {
     // EFFECTS: allows user to edit an existing experience
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
     public void editExperience() {
-        if (experienceList.getExperiences().isEmpty()) {
+        if (resume.getExperienceList().getExperiences().isEmpty()) {
             System.out.println("\nNo experiences available to edit.");
+            return;
         }
         System.out.println("\nSelect an experience to edit:");
-        for (int i = 0; i < experienceList.getExperiences().size(); i++) {
-            System.out.println("\t" + i + " -> " + experienceList.getExperiences().get(i).getPosition());
+        for (int i = 0; i < resume.getExperienceList().getExperiences().size(); i++) {
+            System.out.println("\t" + i + " -> " + resume.getExperienceList().getExperiences().get(i).getPosition());
 
             System.out.print("\nEnter the number of the experience you want to edit: ");
             int index = input.nextInt();
             input.nextLine();
-            if (index < 0 || index >= experienceList.getExperiences().size()) {
+            if (index < 0 || index >= resume.getExperienceList().getExperiences().size()) {
                 System.out.println("Invalid selection.");
             }
 
-            Experience selectedExperience = experienceList.getExperiences().get(index);
+            Experience selectedExperience = resume.getExperienceList().getExperiences().get(index);
 
             System.out.println("\nSelect a field to edit:");
             System.out.println("\t1 -> Position");

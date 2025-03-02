@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents an entire resume, containing profile, experiences, education, and skills
-public class Resume {
+public class Resume implements Writable{
     private Profile profile;
     private ExperienceList experienceList;
     private EducationList educationList;
@@ -13,6 +17,20 @@ public class Resume {
         this.experienceList = new ExperienceList();
         this.educationList = new EducationList();
         this.skillsList = new Skills();
+    }
+
+    // EFFECTS: converts this resume into a JSON object
+    // NOTE: CODE BASED OFF OF DEMO APPLICATION
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        if (profile != null) {
+            json.put("profile", profile.toJson());
+        }
+        json.put("experiences", experienceList.toJson());
+        json.put("educations", educationList.toJson());
+        json.put("skills", skillsList.toJson());
+        return json;
     }
 
     // MODIFIES: this

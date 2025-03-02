@@ -1,14 +1,18 @@
 package ui;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.*;
+import persistence.JsonWriter;
 
 // Resume Application
 public class ResumeApp {
+    private static final String JSON_STORE = "./data/resume.json";
     private Scanner input;
     private Resume resume;
+    private JsonWriter jsonWriter;
 
     // EFFECTS: runs the resume application
     // NOTE: CODE BASED OFF OF FITLIFEGYM LECTURE LAB
@@ -23,6 +27,7 @@ public class ResumeApp {
     private void init() {
         input = new Scanner(System.in);
         resume = new Resume();
+        jsonWriter = new JsonWriter(JSON_STORE);
     }
 
     // MODIFIES: this
@@ -64,8 +69,25 @@ public class ResumeApp {
             skillsCommand();
         } else if (command.equals("pr")) {
             printResume();
+        } else if (command.equals("sv")) {
+            saveResume();
+        } else if (command.equals("ld")) {
+            //loadResume();
         } else {
             System.out.println("Selection not valid...");
+        }
+    }
+
+    // EFFECTS: saves the resume to file
+    // NOTE: ADOPTED FROM DEMO APPLICATION
+    private void saveResume() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(resume);
+            jsonWriter.close();
+            System.out.println("Saved your resume to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
         }
     }
 
@@ -640,6 +662,7 @@ public class ResumeApp {
         System.out.println("\te -> education");
         System.out.println("\ts -> skills");
         System.out.println("\tpr -> PRINT RESUME");
+        System.out.println("\tsv -> save resume");
         System.out.println("\tq -> quit");
     }
 

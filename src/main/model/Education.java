@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents education history of the user
-public class Education {
+public class Education implements Writable{
     String gpa;
     String institution;
     String location;
@@ -24,6 +28,21 @@ public class Education {
         this.endMonth = endMonth;
         this.description = description;
 
+    }
+
+    // EFFECTS: converts this education into a JSON object
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("gpa", gpa);
+        json.put("institution", institution);
+        json.put("location", location);
+        json.put("startYear", startYear);
+        json.put("startMonth", startMonth);
+        json.put("endYear", endYear);
+        json.put("endMonth", endMonth);
+        json.put("description", description);
+        return json;
     }
 
     // EFFECTS: returns the gpa

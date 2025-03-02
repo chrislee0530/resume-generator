@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents work experiences of the user
-public class Experience {
+public class Experience implements Writable{
     String position;
     String institution;
     String location;
@@ -43,6 +47,21 @@ public class Experience {
         }
 
         return totalDuration;
+    }
+
+    // EFFECTS: converts this experience into a JSON object
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("position", position);
+        json.put("institution", institution);
+        json.put("location", location);
+        json.put("startYear", startYear);
+        json.put("startMonth", startMonth);
+        json.put("endYear", endYear);
+        json.put("endMonth", endMonth);
+        json.put("description", description);
+        return json;
     }
 
 

@@ -2,8 +2,13 @@ package model;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents all educations of the user
-public class EducationList {
+public class EducationList implements Writable{
     private ArrayList<Education> educationList;
 
     // EFFECTS: constructs an empty list of educations
@@ -60,6 +65,26 @@ public class EducationList {
     // EFFECTS: returns the list of education
     public ArrayList<Education> getEducations() {
         return educationList;
+    }
+
+    @Override
+    // NOTE: CODE BASED OFF OF DEMO APPLICATION
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("educations", toJsonArray());
+        return json;
+    }
+
+    // EFFECTS: returns educations as a JSON array
+    // NOTE: CODE BASED OFF OF DEMO APPLICATION
+    private JSONArray toJsonArray() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Education e : educationList) {
+            jsonArray.put(e.toJson());
+        }
+        
+        return jsonArray;
     }
 
 }

@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents a skill of the user
-public class Skill {
+public class Skill implements Writable{
     private String title;
     private int level;
 
@@ -9,6 +13,15 @@ public class Skill {
     public Skill(String title, int level) {
         this.title = title;
         this.level = level;
+    }
+
+    // EFFECTS: converts this skill into a JSON object
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("title", title);
+        json.put("level", level);
+        return json;
     }
 
     // EFFECTS: Returns the title of the skill

@@ -2,8 +2,13 @@ package model;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents the list of skills of the user
-public class Skills {
+public class Skills implements Writable {
     private ArrayList<Skill> skills;
 
     // EFFECTS: constructs an empty list of skills
@@ -60,6 +65,26 @@ public class Skills {
     // EFFECTS: returns the list of skills
     public ArrayList<Skill> getSkills() {
         return skills;
+    }
+
+    @Override
+    // NOTE: CODE BASED OFF OF DEMO APPLICATION
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("skills", toJsonArray());
+        return json;
+    }
+
+    // EFFECTS: returns skills as a JSON array
+    // NOTE: CODE BASED OFF OF DEMO APPLICATION
+    private JSONArray toJsonArray() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Skill s : skills) {
+            jsonArray.put(s.toJson());
+        }
+        
+        return jsonArray;
     }
 
 }

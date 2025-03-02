@@ -2,8 +2,13 @@ package model;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents all experiences of the user
-public class ExperienceList {
+public class ExperienceList implements Writable{
     private ArrayList<Experience> experienceList;
 
     // EFFECTS: constructs an empty list of experiences
@@ -91,6 +96,26 @@ public class ExperienceList {
     // EFFECTS: returns the list of experience
     public ArrayList<Experience> getExperiences() {
         return experienceList;
+    }
+
+    @Override
+    // NOTE: CODE BASED OFF OF DEMO APPLICATION
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("experiences", toJsonArray());
+        return json;
+    }
+
+    // EFFECTS: returns experiences as a JSON array
+    // NOTE: CODE BASED OFF OF DEMO APPLICATION
+    private JSONArray toJsonArray() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Experience e : experienceList) {
+            jsonArray.put(e.toJson());
+        }
+        
+        return jsonArray;
     }
 
 }

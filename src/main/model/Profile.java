@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents the user's profile information including name, contact info, and address
-public class Profile {
+public class Profile implements Writable{
     String name;
     String number;
     String email;
@@ -70,6 +74,17 @@ public class Profile {
     // EFFECTS: updates the user's resume objective with given objective
     public void setObjective(String objective) {
         this.objective = objective;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("number", number);
+        json.put("email", email);
+        json.put("address", address);
+        json.put("objective", objective);
+        return json;
     }
 
 }

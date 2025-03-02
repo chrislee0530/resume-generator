@@ -20,8 +20,8 @@ import org.json.JSONObject;
 public class JsonReader {
     private String source;
 
-     // EFFECTS: constructs reader to read from source file
-     public JsonReader(String source) {
+    // EFFECTS: constructs reader to read from source file
+    public JsonReader(String source) {
         this.source = source;
     }
 
@@ -48,62 +48,98 @@ public class JsonReader {
     private Resume parseResume(JSONObject jsonObject) {
         Resume resume = new Resume();
 
-        if (jsonObject.has("profile")) {
-            resume.setProfile(parseProfile(jsonObject.getJSONObject("profile")));
+        JSONObject profileJson = jsonObject.optJSONObject("profile");
+        if (profileJson != null) {
+            resume.setProfile(parseProfile(profileJson));
         }
 
-        if (jsonObject.has("experiences")) {
-            parseExperiences(jsonObject.getJSONArray("experiences"), resume);
+        JSONArray experiencesArray = jsonObject.optJSONArray("experiences");
+        if (experiencesArray != null) {
+            parseExperiences(experiencesArray, resume);
         }
 
-        if (jsonObject.has("educations")) {
-            parseEducations(jsonObject.getJSONArray("educations"), resume);
+        JSONArray educationsArray = jsonObject.optJSONArray("educations");
+        if (educationsArray != null) {
+            parseEducations(educationsArray, resume);
         }
 
-        if (jsonObject.has("skills")) {
-            parseSkills(jsonObject.getJSONArray("skills"), resume);
+        JSONArray skillsArray = jsonObject.optJSONArray("skills");
+        if (skillsArray != null) {
+            parseSkills(skillsArray, resume);
         }
 
         return resume;
-
     }
 
     // EFFECTS: parses profile from JSON object and returns it
     private Profile parseProfile(JSONObject jsonObject) {
-        return null;
+        String name = jsonObject.getString("name");
+        String number = jsonObject.getString("number");
+        String email = jsonObject.getString("email");
+        String address = jsonObject.getString("address");
+        String objective = jsonObject.getString("objective");
+
+        return new Profile(name, number, email, address, objective);
     }
 
     // MODIFIES: resume
     // EFFECTS: parses experiences from JSON array and adds them to resume
     private void parseExperiences(JSONArray jsonArray, Resume resume) {
-        
+        for (Object json : jsonArray) {
+            JSONObject nextExp = (JSONObject) json;
+            resume.addExperience(parseExperience(nextExp));
+        }
     }
 
     // EFFECTS: parses a single experience from JSON object and returns it
     private Experience parseExperience(JSONObject jsonObject) {
-        return null;
+        return new Experience(
+                jsonObject.getString("position"),
+                jsonObject.getString("institution"),
+                jsonObject.getString("location"),
+                jsonObject.getString("startYear"),
+                jsonObject.getString("startMonth"),
+                jsonObject.getString("endYear"),
+                jsonObject.getString("endMonth"),
+                jsonObject.getString("description"));
     }
 
     // MODIFIES: resume
     // EFFECTS: parses educations from JSON array and adds them to resume
     private void parseEducations(JSONArray jsonArray, Resume resume) {
-        
+        for (Object json : jsonArray) {
+            JSONObject nextEdu = (JSONObject) json;
+            resume.addEducation(parseEducation(nextEdu));
+        }
     }
 
     // EFFECTS: parses a single education from JSON object and returns it
     private Education parseEducation(JSONObject jsonObject) {
-        return null;
+        return new Education(
+                jsonObject.getString("gpa"),
+                jsonObject.getString("institution"),
+                jsonObject.getString("location"),
+                jsonObject.getString("startYear"),
+                jsonObject.getString("startMonth"),
+                jsonObject.getString("endYear"),
+                jsonObject.getString("endMonth"),
+                jsonObject.getString("description"));
     }
 
     // MODIFIES: resume
     // EFFECTS: parses skills from JSON array and adds them to resume
     private void parseSkills(JSONArray jsonArray, Resume resume) {
-        
+        for (Object json : jsonArray) {
+            JSONObject nextSkill = (JSONObject) json;
+            resume.addSkill(parseSkill(nextSkill));
+        }
     }
 
     // EFFECTS: parses a single skill from JSON object and returns it
     private Skill parseSkill(JSONObject jsonObject) {
-        return null;
+        return new Skill(
+                jsonObject.getString("title"),
+                jsonObject.getInt("level"));
     }
 
 }

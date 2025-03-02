@@ -73,7 +73,7 @@ public class JsonReaderTest extends JsonTest {
                     "09",
                     "2028",
                     "05",
-                    "Bcom degree",
+                    "BCom degree",
                     resume.getEducationList().getEducations().get(0));
 
             assertEquals(1, resume.getSkillsList().getSkills().size());

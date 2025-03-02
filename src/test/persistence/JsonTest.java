@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonTest {
 
-    protected void checkProfile(String name, String number, String email, String address, String objective, Profile profile) {
+    protected void checkProfile(String name, String number, String email, String address, String objective,
+            Profile profile) {
         assertEquals(name, profile.getName());
         assertEquals(number, profile.getNumber());
         assertEquals(email, profile.getEmail());
@@ -19,9 +20,9 @@ public class JsonTest {
         assertEquals(objective, profile.getObjective());
     }
 
-    protected void checkExperience(String position, String institution, String location, String startYear, 
-                                   String startMonth, String endYear, String endMonth, String description, 
-                                   Experience experience) {
+    protected void checkExperience(String position, String institution, String location, String startYear,
+            String startMonth, String endYear, String endMonth, String description,
+            Experience experience) {
         assertEquals(position, experience.getPosition());
         assertEquals(institution, experience.getInstitution());
         assertEquals(location, experience.getLocation());
@@ -32,9 +33,9 @@ public class JsonTest {
         assertEquals(description, experience.getDescription());
     }
 
-    protected void checkEducation(String gpa, String institution, String location, String startYear, 
-                                  String startMonth, String endYear, String endMonth, String description, 
-                                  Education education) {
+    protected void checkEducation(String gpa, String institution, String location, String startYear,
+            String startMonth, String endYear, String endMonth, String description,
+            Education education) {
         assertEquals(gpa, education.getGpa());
         assertEquals(institution, education.getInstitution());
         assertEquals(location, education.getLocation());

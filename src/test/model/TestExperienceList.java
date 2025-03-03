@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -145,4 +147,66 @@ public class TestExperienceList {
         assertEquals(experienceA, experiences.get(0));
         assertEquals(experienceB, experiences.get(1));
     }
+
+    @Test
+    public void testToJson() {
+        experienceList.addExperience(experienceA);
+        experienceList.addExperience(experienceB);
+
+        JSONObject json = experienceList.toJson();
+        assertNotNull(json);
+        assertTrue(json.has("experiences"));
+
+        JSONArray jsonArray = json.getJSONArray("experiences");
+        assertEquals(2, jsonArray.length());
+
+        JSONObject experienceA = jsonArray.getJSONObject(0);
+        assertEquals("Professor", experienceA.getString("position"));
+        assertEquals("UBC Sauder", experienceA.getString("institution"));
+        assertEquals("Vancouver", experienceA.getString("location"));
+        assertEquals("2005", experienceA.getString("startYear"));
+        assertEquals("9", experienceA.getString("startMonth"));
+        assertEquals("2010", experienceA.getString("endYear"));
+        assertEquals("12", experienceA.getString("endMonth"));
+        assertEquals("COMM 190 Professor", experienceA.getString("description"));
+
+        JSONObject experienceB = jsonArray.getJSONObject(1);
+        assertEquals("Product Manager", experienceB.getString("position"));
+        assertEquals("Microsoft", experienceB.getString("institution"));
+        assertEquals("Seattle", experienceB.getString("location"));
+        assertEquals("2020", experienceB.getString("startYear"));
+        assertEquals("8", experienceB.getString("startMonth"));
+        assertEquals("2023", experienceB.getString("endYear"));
+        assertEquals("12", experienceB.getString("endMonth"));
+        assertEquals("Copilot prototyping", experienceB.getString("description"));
+    }
+
+    @Test
+    public void testToJsonArrayEmpty() {
+        JSONArray jsonArray = experienceList.toJsonArray();
+        assertNotNull(jsonArray);
+        assertEquals(0, jsonArray.length());
+    }
+
+    @Test
+    public void testToJsonArrayWithExperiences() {
+        experienceList.addExperience(experienceA);
+        experienceList.addExperience(experienceB);
+
+        JSONArray jsonArray = experienceList.toJsonArray();
+        assertNotNull(jsonArray);
+        assertEquals(2, jsonArray.length());
+
+        JSONObject experienceA = jsonArray.getJSONObject(0);
+        assertEquals("Professor", experienceA.getString("position"));
+        assertEquals("UBC Sauder", experienceA.getString("institution"));
+        assertEquals("Vancouver", experienceA.getString("location"));
+        assertEquals("2005", experienceA.getString("startYear"));
+        assertEquals("9", experienceA.getString("startMonth"));
+        assertEquals("2010", experienceA.getString("endYear"));
+        assertEquals("12", experienceA.getString("endMonth"));
+        assertEquals("COMM 190 Professor", experienceA.getString("description"));
+    }
+
+
 }

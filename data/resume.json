@@ -1,0 +1,25 @@
+{
+    "skills": [
+        {
+            "level": 4,
+            "title": "Java"
+        },
+        {
+            "level": 5,
+            "title": "Python"
+        },
+        {
+            "level": 5,
+            "title": "Public Speaking"
+        }
+    ],
+    "profile": {
+        "number": "q345345",
+        "address": "Vancouver, BC",
+        "name": "Chris",
+        "email": "asdf@gmail.com",
+        "objective": "asdfasf"
+    },
+    "educations": [],
+    "experiences": []
+}

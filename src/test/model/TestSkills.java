@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -99,5 +101,51 @@ public class TestSkills {
         assertEquals(2, skillsList.size());
         assertEquals(a, skillsList.get(0));
         assertEquals(b, skillsList.get(1));
+    }
+
+    @Test
+    void testToJson() {
+        skills.addSkill(a);
+        skills.addSkill(b);
+
+        JSONObject json = skills.toJson();
+        assertNotNull(json);
+        assertTrue(json.has("skills"));
+
+        JSONArray jsonArray = json.getJSONArray("skills");
+        assertEquals(2, jsonArray.length());
+
+        JSONObject skillJson1 = jsonArray.getJSONObject(0);
+        assertEquals("a", skillJson1.getString("title"));
+        assertEquals(2, skillJson1.getInt("level"));
+
+        JSONObject skillJson2 = jsonArray.getJSONObject(1);
+        assertEquals("b", skillJson2.getString("title"));
+        assertEquals(3, skillJson2.getInt("level"));
+    }
+
+    @Test
+    void testToJsonArrayEmpty() {
+        JSONArray jsonArray = skills.toJsonArray();
+        assertNotNull(jsonArray);
+        assertEquals(0, jsonArray.length());
+    }
+
+    @Test
+    void testToJsonArrayWithSkills() {
+        skills.addSkill(a);
+        skills.addSkill(b);
+
+        JSONArray jsonArray = skills.toJsonArray();
+        assertNotNull(jsonArray);
+        assertEquals(2, jsonArray.length());
+
+        JSONObject skillJson1 = jsonArray.getJSONObject(0);
+        assertEquals("a", skillJson1.getString("title"));
+        assertEquals(2, skillJson1.getInt("level"));
+
+        JSONObject skillJson2 = jsonArray.getJSONObject(1);
+        assertEquals("b", skillJson2.getString("title"));
+        assertEquals(3, skillJson2.getInt("level"));
     }
 }

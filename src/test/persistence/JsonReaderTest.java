@@ -22,13 +22,41 @@ public class JsonReaderTest extends JsonTest {
             Resume resume = reader.read();
             fail("IOException expected");
         } catch (IOException e) {
-            // pass
+            // expected
         }
     }
 
     @Test
     void testReaderEmptyResume() {
         JsonReader reader = new JsonReader("./data/testReaderEmptyResume.json");
+        try {
+            Resume resume = reader.read();
+            assertNull(resume.getProfile());
+            assertTrue(resume.getExperienceList().getExperiences().isEmpty());
+            assertTrue(resume.getEducationList().getEducations().isEmpty());
+            assertTrue(resume.getSkillsList().getSkills().isEmpty());
+        } catch (IOException e) {
+            fail("Couldn't read from file");
+        }
+    }
+
+    @Test
+    void testReaderMissingFields() {
+        JsonReader reader = new JsonReader("./data/testReaderMissingFields.json");
+        try {
+            Resume resume = reader.read();
+            assertNull(resume.getProfile());
+            assertTrue(resume.getExperienceList().getExperiences().isEmpty());
+            assertTrue(resume.getEducationList().getEducations().isEmpty());
+            assertTrue(resume.getSkillsList().getSkills().isEmpty());
+        } catch (IOException e) {
+            fail("Couldn't read from file");
+        }
+    }
+
+    @Test
+    void testReaderEmptyJsonObject() {
+        JsonReader reader = new JsonReader("./data/testReaderEmptyJsonObject.json");
         try {
             Resume resume = reader.read();
             assertNull(resume.getProfile());

@@ -1,0 +1,33 @@
+{
+    "skills": [{
+        "level": 5,
+        "title": "Java"
+    }],
+    "profile": {
+        "number": "7781234567",
+        "address": "Vancouver, BC",
+        "name": "Chris",
+        "email": "cpsc210@gmail.com",
+        "objective": "Software Engineer"
+    },
+    "educations": [{
+        "institution": "UBC",
+        "startMonth": "09",
+        "startYear": "2024",
+        "gpa": "4.0",
+        "description": "BCom degree",
+        "location": "Vancouver",
+        "endMonth": "05",
+        "endYear": "2028"
+    }],
+    "experiences": [{
+        "institution": "Google",
+        "startMonth": "6",
+        "startYear": "2020",
+        "description": "Software Engineer",
+        "location": "Seattle",
+        "position": "Software Engineer",
+        "endMonth": "12",
+        "endYear": "2023"
+    }]
+}

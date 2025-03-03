@@ -1,10 +1,13 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -116,6 +119,74 @@ public class TestEducationList {
         assertEquals(educationB, experiences.get(1));
     }
 
-    
+    @Test
+    public void testToJson() {
+        educationList.addEducation(educationA);
+        educationList.addEducation(educationB);
+
+        JSONObject json = educationList.toJson();
+        assertNotNull(json);
+        assertTrue(json.has("educations"));
+
+        JSONArray jsonArray = json.getJSONArray("educations");
+        assertEquals(2, jsonArray.length());
+
+        JSONObject educationA = jsonArray.getJSONObject(0);
+        assertEquals("1", educationA.getString("gpa"));
+        assertEquals("educationA", educationA.getString("institution"));
+        assertEquals("educationA", educationA.getString("location"));
+        assertEquals("2005", educationA.getString("startYear"));
+        assertEquals("9", educationA.getString("startMonth"));
+        assertEquals("2010", educationA.getString("endYear"));
+        assertEquals("12", educationA.getString("endMonth"));
+        assertEquals("educationA", educationA.getString("description"));
+
+        JSONObject educationB = jsonArray.getJSONObject(1);
+        assertEquals("2", educationB.getString("gpa"));
+        assertEquals("educationB", educationB.getString("institution"));
+        assertEquals("educationB", educationB.getString("location"));
+        assertEquals("2020", educationB.getString("startYear"));
+        assertEquals("8", educationB.getString("startMonth"));
+        assertEquals("2023", educationB.getString("endYear"));
+        assertEquals("12", educationB.getString("endMonth"));
+        assertEquals("educationB", educationB.getString("description"));
+    }
+
+    @Test
+    public void testToJsonArrayEmpty() {
+        JSONArray jsonArray = educationList.toJsonArray();
+        assertNotNull(jsonArray);
+        assertEquals(0, jsonArray.length());
+    }
+
+    @Test
+    public void testToJsonArrayWithEducations() {
+        educationList.addEducation(educationA);
+        educationList.addEducation(educationB);
+
+        JSONArray jsonArray = educationList.toJsonArray();
+        assertNotNull(jsonArray);
+        assertEquals(2, jsonArray.length());
+
+        JSONObject educationA = jsonArray.getJSONObject(0);
+        assertEquals("1", educationA.getString("gpa"));
+        assertEquals("educationA", educationA.getString("institution"));
+        assertEquals("educationA", educationA.getString("location"));
+        assertEquals("2005", educationA.getString("startYear"));
+        assertEquals("9", educationA.getString("startMonth"));
+        assertEquals("2010", educationA.getString("endYear"));
+        assertEquals("12", educationA.getString("endMonth"));
+        assertEquals("educationA", educationA.getString("description"));
+
+        JSONObject educationB = jsonArray.getJSONObject(1);
+        assertEquals("2", educationB.getString("gpa"));
+        assertEquals("educationB", educationB.getString("institution"));
+        assertEquals("educationB", educationB.getString("location"));
+        assertEquals("2020", educationB.getString("startYear"));
+        assertEquals("8", educationB.getString("startMonth"));
+        assertEquals("2023", educationB.getString("endYear"));
+        assertEquals("12", educationB.getString("endMonth"));
+        assertEquals("educationB", educationB.getString("description"));
+    }
 
 }

@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represents all experiences of the user
-public class ExperienceList implements Writable{
+public class ExperienceList implements Writable {
     private ArrayList<Experience> experienceList;
 
     // EFFECTS: constructs an empty list of experiences

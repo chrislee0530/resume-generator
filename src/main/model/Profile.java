@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represents the user's profile information including name, contact info, and address
-public class Profile implements Writable{
+public class Profile implements Writable {
     String name;
     String number;
     String email;

@@ -140,8 +140,8 @@ public class ResumeApp {
         doubleLineBackN();
 
         System.out.println(resume.getProfile().getName());
-        System.out.println(resume.getProfile().getNumber() + " | " + resume.getProfile().getEmail() 
-        + " | " + resume.getProfile().getAddress());
+        System.out.println(resume.getProfile().getNumber() + " | " + resume.getProfile().getEmail()
+                + " | " + resume.getProfile().getAddress());
         System.out.println(resume.getProfile().getObjective());
 
         singleLine();

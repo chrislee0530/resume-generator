@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represents work experiences of the user
-public class Experience implements Writable{
+public class Experience implements Writable {
     String position;
     String institution;
     String location;

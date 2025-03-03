@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represents a skill of the user
-public class Skill implements Writable{
+public class Skill implements Writable {
     private String title;
     private int level;
 

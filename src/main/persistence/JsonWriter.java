@@ -1,4 +1,5 @@
 package persistence;
+
 import model.Resume;
 import org.json.JSONObject;
 

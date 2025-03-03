@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represents education history of the user
-public class Education implements Writable{
+public class Education implements Writable {
     String gpa;
     String institution;
     String location;

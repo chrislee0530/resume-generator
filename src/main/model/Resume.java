@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represents an entire resume, containing profile, experiences, education, and skills
-public class Resume implements Writable{
+public class Resume implements Writable {
     private Profile profile;
     private ExperienceList experienceList;
     private EducationList educationList;

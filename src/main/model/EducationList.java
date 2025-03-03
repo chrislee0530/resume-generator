@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represents all educations of the user
-public class EducationList implements Writable{
+public class EducationList implements Writable {
     private ArrayList<Education> educationList;
 
     // EFFECTS: constructs an empty list of educations

@@ -1,7 +1,7 @@
 {
     "skills": [
         {
-            "level": 4,
+            "level": 3,
             "title": "Java"
         },
         {
@@ -9,17 +9,67 @@
             "title": "Python"
         },
         {
-            "level": 5,
-            "title": "Public Speaking"
+            "level": 4,
+            "title": "Excel"
+        },
+        {
+            "level": 3,
+            "title": "Public speaking"
+        },
+        {
+            "level": 4,
+            "title": "Leadership"
         }
     ],
     "profile": {
-        "number": "q345345",
+        "number": "778-951-6635",
         "address": "Vancouver, BC",
         "name": "Chris",
-        "email": "asdf@gmail.com",
-        "objective": "asdfasf"
+        "email": "chris@ubcbiztech.com",
+        "objective": "UBC freshman majoring in Business and Computer Science"
     },
-    "educations": [],
-    "experiences": []
+    "educations": [
+        {
+            "institution": "UBC Sauder School og Business",
+            "startMonth": "09",
+            "startYear": "2024",
+            "gpa": "4.20",
+            "description": "BCom degree",
+            "location": "Vancouve",
+            "endMonth": "0",
+            "endYear": "0"
+        },
+        {
+            "institution": "Walnut Grove Secondary School",
+            "startMonth": "09",
+            "startYear": "2019",
+            "gpa": "98.9",
+            "description": "Top graduate among 420+ students",
+            "location": "Langley",
+            "endMonth": "06",
+            "endYear": "2024"
+        }
+    ],
+    "experiences": [
+        {
+            "institution": "1Password",
+            "startMonth": "10",
+            "startYear": "2024",
+            "description": "Product manager at 1Password focusing on usability",
+            "location": "Hybrid",
+            "position": "Product Manager",
+            "endMonth": "12",
+            "endYear": "2024"
+        },
+        {
+            "institution": "Microsoft",
+            "startMonth": "08",
+            "startYear": "2018",
+            "description": "Software Engineer at Microsoft",
+            "location": "Vancouver",
+            "position": "Software Engineer",
+            "endMonth": "10",
+            "endYear": "2020"
+        }
+    ]
 }

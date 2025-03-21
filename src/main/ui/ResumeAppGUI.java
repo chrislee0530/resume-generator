@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
+import java.util.ArrayList;
 
 import model.Experience;
 import model.ExperienceList;
@@ -120,7 +121,7 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: shows options to add or remove experience
     private void handleExperienceMenu(ActionEvent e) {
-        String[] options = { "Add Experience", "Remove Experience" };
+        String[] options = { "Add Experience", "Remove ALL Experiences" };
         int choice = JOptionPane.showOptionDialog(this, "What would you like to do?", "Experience Options", 0,
                 3, null, // I NEED TO ADD IMAGE HERE LATER
                 options, options[0]);
@@ -135,7 +136,13 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: user can choose which experience to remove and removes from list
     private void handleRemoveExperience() {
-        
+        ArrayList<Experience> experiences = experienceList.getExperiences();
+        if (experiences.isEmpty()) {
+            displayArea.append("No experiences to remove.\n\n");
+            return;
+        }
+        experiences.removeAll(experiences);
+        displayArea.append("All experiences removed!\n");
     }
 
     // NOTE: this code is based off of SmartHome actionPerformed() code
@@ -169,6 +176,14 @@ public class ResumeAppGUI extends JFrame {
         panel.add(new JLabel("Description:"));
         panel.add(descriptionField);
 
+        addExperience(positionField, institutionField, locationField, startYearField,
+                startMonthField, endYearField, endMonthField, descriptionField);
+    }
+
+    // EFFECTS: creates an experience and adds to user resume
+    private void addExperience(JTextField positionField, JTextField institutionField, JTextField locationField,
+            JTextField startYearField, JTextField startMonthField, JTextField endYearField, JTextField endMonthField,
+            JTextField descriptionField) {
         int result = JOptionPane.showConfirmDialog(this, panel, "Enter Experience", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             Experience exp = new Experience(
@@ -188,8 +203,8 @@ public class ResumeAppGUI extends JFrame {
         }
     }
 
-    // EFFECTS: generates resume and displays content in the display area
     // REQUIRES: model data to be collected before this method is called
+    // EFFECTS: generates resume and displays content in the display area
     private void handleGenerateResume(ActionEvent e) {
         if (profile != null) {
             displayArea.append("\n=========== RESUME ===========\n");
@@ -207,7 +222,8 @@ public class ResumeAppGUI extends JFrame {
             for (Experience exp : experienceList.getExperiences()) {
                 displayArea.append(exp.getPosition() + " - " + exp.getInstitution() + "\n");
                 if (exp.getEndYear().equals("0")) {
-                    displayArea.append(exp.getLocation() + " | " + exp.getStartMonth() + "/" + exp.getStartYear() + " - Present\n");
+                    displayArea.append(exp.getLocation() + " | " + exp.getStartMonth() + "/" + exp.getStartYear()
+                            + " - Present\n");
                 } else {
                     displayArea.append(exp.getLocation() + " | " + exp.getStartMonth() + "/" + exp.getStartYear()
                             + " - " + exp.getEndMonth() + "/" + exp.getEndYear() + "\n");
@@ -215,7 +231,7 @@ public class ResumeAppGUI extends JFrame {
                 displayArea.append(exp.getDescription() + "\n\n");
             }
         } else {
-            displayArea.append("\nNo experiences to display");
+            displayArea.append("\nNo experiences to display.\n");
         }
     }
 }

@@ -1,11 +1,18 @@
 package ui;
 
 import java.awt.*;
-
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 public class ResumeAppGUI extends JFrame {
-    
+    private JMenuBar menuBar;
+    private JPanel panel;
+    private JButton addProfileButton;
+    private JButton addExperienceButton;
+    private JButton addEducationButton;
+    private JButton addSkillButton;
+    private JTextArea displayArea;
 
     // MODIFIES: this
     // EFFECTS: initializes and creates ResumeAppGUI,
@@ -15,8 +22,8 @@ public class ResumeAppGUI extends JFrame {
         setSize(800, 600);
         setLayout(new BorderLayout());
         initializeMenu();
-        initailizePanel();
-        initializeDiaplayArea();
+        initializePanel();
+        initializeDisplayArea();
         setVisible(true);
     }
 
@@ -27,25 +34,123 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: initializes the menu bar with save and load options
     private void initializeMenu() {
-        
+        menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem saveItem = new JMenuItem("Save");
+        JMenuItem loadItem = new JMenuItem("Load");
+        fileMenu.add(saveItem);
+        fileMenu.add(loadItem);
+        menuBar.add(fileMenu);
+        setJMenuBar(menuBar);
     }
 
     // MODIFIES: this
     // EFFECTS: initializes the button panel
-    private void initailizePanel() {
-        
+    private void initializePanel() {
+        panel = new JPanel(new GridLayout(1, 4));
+        addProfileButton = createButton("Add Profile", this::handleAddProfile);
+        addExperienceButton = createButton("Add Experience", this::handleAddExperience);
+        addEducationButton = createButton("Add Education", e -> {
+        });
+        addSkillButton = createButton("Add Skill", e -> {
+        });
+        panel.add(addProfileButton);
+        panel.add(addExperienceButton);
+        panel.add(addEducationButton);
+        panel.add(addSkillButton);
+        add(panel, BorderLayout.NORTH);
     }
 
     // MODIFIES: this
     // EFFECTS: initializes the scrollable display area for resume content
-    private void initializeDiaplayArea() {
-        
+    private void initializeDisplayArea() {
+        displayArea = new JTextArea(20, 50);
+        displayArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(displayArea);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     // EFFECTS: Creates and returns a button with an action listener
-    private JButton createButton(String label) {
-        return new JButton(); //stub
-        
+    private JButton createButton(String label, ActionListener a) {
+        JButton button = new JButton(label);
+        button.addActionListener(a);
+        return button;
     }
 
+    // NOTE: this code is based off of SmartHome actionPerformed() code
+    // MODIFIES: this
+    // EFFECTS: opens a panel with 5 textfields to input profile details
+    private void handleAddProfile(ActionEvent e) {
+        JTextField nameField = new JTextField(10);
+        JTextField phoneField = new JTextField(10);
+        JTextField emailField = new JTextField(10);
+        JTextField addressField = new JTextField(10);
+        JTextField objectiveField = new JTextField(10);
+
+        JPanel panel = new JPanel(new GridLayout(5, 2));
+        panel.add(new JLabel("Name:"));
+        panel.add(nameField);
+        panel.add(new JLabel("Phone:"));
+        panel.add(phoneField);
+        panel.add(new JLabel("Email:"));
+        panel.add(emailField);
+        panel.add(new JLabel("Address:"));
+        panel.add(addressField);
+        panel.add(new JLabel("Objective:"));
+        panel.add(objectiveField);
+
+        int result = JOptionPane.showConfirmDialog(this, panel, "Enter Profile", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            String profileText = "Profile:\n" + "Name: " + nameField.getText() + "\n" +
+                    "Phone: " + phoneField.getText() + "\n" + "Email: " + emailField.getText() + "\n" +
+                    "Address: " + addressField.getText() + "\n" + "Objective: " + objectiveField.getText() + "\n\n";
+            displayArea.append(profileText);
+        }
+    }
+
+    // NOTE: this code is based off of SmartHome actionPerformed() code
+    // MODIFIES: this
+    // EFFECTS: opens a panel with 8 textfields to input experience details
+    private void handleAddExperience(ActionEvent e) {
+        JTextField positionField = new JTextField(10);
+        JTextField institutionField = new JTextField(10);
+        JTextField locationField = new JTextField(10);
+        JTextField startYearField = new JTextField(5);
+        JTextField startMonthField = new JTextField(5);
+        JTextField endYearField = new JTextField(5);
+        JTextField endMonthField = new JTextField(5);
+        JTextField descriptionField = new JTextField(10);
+
+        JPanel panel = new JPanel(new GridLayout(8, 2));
+        panel.add(new JLabel("Position:"));
+        panel.add(positionField);
+        panel.add(new JLabel("Company:"));
+        panel.add(institutionField);
+        panel.add(new JLabel("Location:"));
+        panel.add(locationField);
+        panel.add(new JLabel("Start Year:"));
+        panel.add(startYearField);
+        panel.add(new JLabel("Start Month:"));
+        panel.add(startMonthField);
+        panel.add(new JLabel("End Year:"));
+        panel.add(endYearField);
+        panel.add(new JLabel("End Month:"));
+        panel.add(endMonthField);
+        panel.add(new JLabel("Description:"));
+        panel.add(descriptionField);
+
+        int result = JOptionPane.showConfirmDialog(this, panel, "Enter Experience", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            String expText = "Experience:\n" +
+                    positionField.getText() + " - " + institutionField.getText() + "\n" +
+                    locationField.getText() + " | " +
+                    startMonthField.getText() + "/" + startYearField.getText() +
+                    " - "
+                    + (endYearField.getText().equals("0") ? "Present"
+                            : endMonthField.getText() + "/" + endYearField.getText())
+                    +
+                    "\n" + descriptionField.getText() + "\n\n";
+            displayArea.append(expText);
+        }
+    }
 }

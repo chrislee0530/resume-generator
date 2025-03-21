@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.util.ArrayList;
 
+import model.Education;
+import model.EducationList;
 import model.Experience;
 import model.ExperienceList;
 import model.Profile;
@@ -23,6 +25,7 @@ public class ResumeAppGUI extends JFrame {
 
     private Profile profile;
     private ExperienceList experienceList;
+    private EducationList educationList;
 
     // MODIFIES: this
     // EFFECTS: initializes and creates ResumeAppGUI,
@@ -59,9 +62,11 @@ public class ResumeAppGUI extends JFrame {
     private void initializePanel() {
         panel = new JPanel(new GridLayout(1, 5));
         addProfileButton = createButton("Add Profile", this::handleAddProfile);
+        addProfileButton.setPreferredSize(new Dimension(140, 35));
         experienceButton = createButton("Experience", this::handleExperienceMenu);
-        educationButton = createButton("Education", e -> {});
-        skillsButton = createButton("Skills", e -> {});
+        educationButton = createButton("Education", this::handleEducationMenu);
+        skillsButton = createButton("Skills", e -> {
+        });
         generateResumeButton = createButton("Generate Resume", this::handleGenerateResume);
         panel.add(addProfileButton);
         panel.add(experienceButton);
@@ -114,7 +119,8 @@ public class ResumeAppGUI extends JFrame {
         panel.add(new JLabel("Objective:"));
         panel.add(objectiveField);
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Enter Profile", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(this, panel,
+                "Enter Profile", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             profile = new Profile(nameField.getText(), phoneField.getText(), emailField.getText(),
                     addressField.getText(), objectiveField.getText());
@@ -123,10 +129,79 @@ public class ResumeAppGUI extends JFrame {
     }
 
     // MODIFIES: this
+    // EFFECTS: shows options to add or remove education
+    private void handleEducationMenu(ActionEvent e) {
+        String[] options = { "Add Education", "Remove ALL Educations" };
+        int choice = JOptionPane.showOptionDialog(this, "What would you like to do?",
+                "Education Options", 0,
+                3, null, // I NEED TO ADD IMAGE HERE LATER
+                options, options[0]);
+
+        if (choice == 0) {
+            handleAddEducation();
+        } else if (choice == 1) {
+            handleRemoveEducation();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: user can choose which education to remove and removes from list
+    private void handleRemoveEducation() {
+        ArrayList<Education> educations = educationList.getEducations();
+        if (educations.isEmpty()) {
+            workDisplay.append("No educations to remove.\n\n");
+            return;
+        }
+        educations.removeAll(educations);
+        workDisplay.append("All educations removed!\n");
+    }
+
+    private void handleAddEducation() {
+        JTextField gpaField = new JTextField(10);
+        JTextField institutionField = new JTextField(10);
+        JTextField locationField = new JTextField(10);
+        JTextField startYearField = new JTextField(5);
+        JTextField startMonthField = new JTextField(5);
+        JTextField endYearField = new JTextField(5);
+        JTextField endMonthField = new JTextField(5);
+        JTextField descriptionField = new JTextField(10);
+
+        JPanel eduPanel = new JPanel(new GridLayout(8, 2));
+        eduPanel.add(new JLabel("GPA:"));
+        eduPanel.add(gpaField);
+        eduPanel.add(new JLabel("Institution:"));
+        eduPanel.add(institutionField);
+        eduPanel.add(new JLabel("Location:"));
+        eduPanel.add(locationField);
+        eduPanel.add(new JLabel("Start Year:"));
+        eduPanel.add(startYearField);
+        eduPanel.add(new JLabel("Start Month:"));
+        eduPanel.add(startMonthField);
+        eduPanel.add(new JLabel("End Year:"));
+        eduPanel.add(endYearField);
+        eduPanel.add(new JLabel("End Month:"));
+        eduPanel.add(endMonthField);
+        eduPanel.add(new JLabel("Description:"));
+        eduPanel.add(descriptionField);
+
+        int result = JOptionPane.showConfirmDialog(this, eduPanel, "Enter Education", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            Education edu = new Education(gpaField.getText(), institutionField.getText(), locationField.getText(),
+                    startYearField.getText(), startMonthField.getText(), endYearField.getText(),
+                    endMonthField.getText(), descriptionField.getText());
+            if (educationList == null)
+                educationList = new EducationList();
+            educationList.addEducation(edu);
+            workDisplay.append("Education successfully added!\n\n");
+        }
+    }
+
+    // MODIFIES: this
     // EFFECTS: shows options to add or remove experience
     private void handleExperienceMenu(ActionEvent e) {
-        String[] options = {"Add Experience", "Remove ALL Experiences"};
-        int choice = JOptionPane.showOptionDialog(this, "What would you like to do?", "Experience Options", 0,
+        String[] options = { "Add Experience", "Remove ALL Experiences" };
+        int choice = JOptionPane.showOptionDialog(this, "What would you like to do?",
+                "Experience Options", 0,
                 3, null, // I NEED TO ADD IMAGE HERE LATER
                 options, options[0]);
 
@@ -151,7 +226,8 @@ public class ResumeAppGUI extends JFrame {
 
     // NOTE: this code is based off of SmartHome actionPerformed() code
     // MODIFIES: this
-    // EFFECTS: opens an experience panel with 8 textfields to input experience details
+    // EFFECTS: opens an experience panel with 8 textfields to input experience
+    // details
     private void handleAddExperience() {
         JTextField positionField = new JTextField(10);
         JTextField institutionField = new JTextField(10);
@@ -213,17 +289,16 @@ public class ResumeAppGUI extends JFrame {
     private void handleGenerateResume(ActionEvent e) {
         printProfile();
         printExperiences();
+        printEducations();
     }
 
     // EFFECTS: prints out profile on resumeDisplay
     private void printProfile() {
         if (profile != null) {
-            resumeDisplay.append("\n=========== RESUME ===========\n");
-            resumeDisplay.append("Name: " + profile.getName() + "\n");
-            resumeDisplay.append("Phone: " + profile.getNumber() + "\n");
-            resumeDisplay.append("Email: " + profile.getEmail() + "\n");
-            resumeDisplay.append("Address: " + profile.getAddress() + "\n");
-            resumeDisplay.append("Objective: " + profile.getObjective() + "\n\n");
+            resumeDisplay.append("\n=========== RESUME ===========\n\n");
+            resumeDisplay.append(profile.getName() + "\n");
+            resumeDisplay.append(profile.getNumber() + "|" + profile.getEmail() + "|" + profile.getAddress()+ "\n");
+            resumeDisplay.append(profile.getObjective() + "\n\n");
         } else {
             resumeDisplay.append("No profile added.\n\n");
         }
@@ -246,6 +321,27 @@ public class ResumeAppGUI extends JFrame {
             }
         } else {
             resumeDisplay.append("\nNo experiences to display.\n");
+        }
+    }
+
+    // EFFECTS: prints out educations on resumeDisplay
+    private void printEducations() {
+        if (educationList != null && !educationList.getEducations().isEmpty()) {
+            resumeDisplay.append("EDUCATION\n\n");
+            for (Education edu : educationList.getEducations()) {
+                resumeDisplay.append(edu.getInstitution() + " - " + edu.getLocation() + "\n");
+                resumeDisplay.append("GPA: " + edu.getGpa() + "\n");
+                if (edu.getEndYear().equals("0")) {
+                    resumeDisplay.append(edu.getLocation() + " | " + edu.getStartMonth() + "/" + edu.getStartYear()
+                            + " - Present\n");
+                } else {
+                    resumeDisplay.append(edu.getLocation() + " | " + edu.getStartMonth() + "/" + edu.getStartYear()
+                            + " - " + edu.getEndMonth() + "/" + edu.getEndYear() + "\n");
+                }
+                resumeDisplay.append(edu.getDescription() + "\n\n");
+            }
+        } else {
+            resumeDisplay.append("\nNo education to display.\n");
         }
     }
 }

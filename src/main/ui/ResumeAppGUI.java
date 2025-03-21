@@ -18,7 +18,8 @@ public class ResumeAppGUI extends JFrame {
     private JButton educationButton;
     private JButton skillsButton;
     private JButton generateResumeButton;
-    private JTextArea displayArea;
+    private JTextArea workDisplay;
+    private JTextArea resumeDisplay;
 
     private Profile profile;
     private ExperienceList experienceList;
@@ -59,10 +60,8 @@ public class ResumeAppGUI extends JFrame {
         panel = new JPanel(new GridLayout(1, 5));
         addProfileButton = createButton("Add Profile", this::handleAddProfile);
         experienceButton = createButton("Experience", this::handleExperienceMenu);
-        educationButton = createButton("Education", e -> {
-        });
-        skillsButton = createButton("Skills", e -> {
-        });
+        educationButton = createButton("Education", e -> {});
+        skillsButton = createButton("Skills", e -> {});
         generateResumeButton = createButton("Generate Resume", this::handleGenerateResume);
         panel.add(addProfileButton);
         panel.add(experienceButton);
@@ -75,10 +74,15 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: initializes the scrollable display area for resume content
     private void initializeDisplayArea() {
-        displayArea = new JTextArea(20, 50);
-        displayArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(displayArea);
-        add(scrollPane, BorderLayout.CENTER);
+        workDisplay = new JTextArea(20, 50);
+        resumeDisplay = new JTextArea(20, 50);
+        workDisplay.setEditable(false);
+        resumeDisplay.setEditable(false);
+        JScrollPane workScrollPane = new JScrollPane(workDisplay);
+        JScrollPane resumeScrollPane = new JScrollPane(resumeDisplay);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, workScrollPane, resumeScrollPane);
+        splitPane.setDividerLocation(300);
+        add(splitPane, BorderLayout.CENTER);
     }
 
     // EFFECTS: Creates and returns a button with an action listener
@@ -114,14 +118,14 @@ public class ResumeAppGUI extends JFrame {
         if (result == JOptionPane.OK_OPTION) {
             profile = new Profile(nameField.getText(), phoneField.getText(), emailField.getText(),
                     addressField.getText(), objectiveField.getText());
-            displayArea.append("Profile successfully added!\n\n");
+            workDisplay.append("Profile successfully added!\n\n");
         }
     }
 
     // MODIFIES: this
     // EFFECTS: shows options to add or remove experience
     private void handleExperienceMenu(ActionEvent e) {
-        String[] options = { "Add Experience", "Remove ALL Experiences" };
+        String[] options = {"Add Experience", "Remove ALL Experiences"};
         int choice = JOptionPane.showOptionDialog(this, "What would you like to do?", "Experience Options", 0,
                 3, null, // I NEED TO ADD IMAGE HERE LATER
                 options, options[0]);
@@ -138,16 +142,16 @@ public class ResumeAppGUI extends JFrame {
     private void handleRemoveExperience() {
         ArrayList<Experience> experiences = experienceList.getExperiences();
         if (experiences.isEmpty()) {
-            displayArea.append("No experiences to remove.\n\n");
+            workDisplay.append("No experiences to remove.\n\n");
             return;
         }
         experiences.removeAll(experiences);
-        displayArea.append("All experiences removed!\n");
+        workDisplay.append("All experiences removed!\n");
     }
 
     // NOTE: this code is based off of SmartHome actionPerformed() code
     // MODIFIES: this
-    // EFFECTS: opens a panel with 8 textfields to input experience details
+    // EFFECTS: opens an experience panel with 8 textfields to input experience details
     private void handleAddExperience() {
         JTextField positionField = new JTextField(10);
         JTextField institutionField = new JTextField(10);
@@ -158,33 +162,34 @@ public class ResumeAppGUI extends JFrame {
         JTextField endMonthField = new JTextField(5);
         JTextField descriptionField = new JTextField(10);
 
-        JPanel panel = new JPanel(new GridLayout(8, 2));
-        panel.add(new JLabel("Position:"));
-        panel.add(positionField);
-        panel.add(new JLabel("Company:"));
-        panel.add(institutionField);
-        panel.add(new JLabel("Location:"));
-        panel.add(locationField);
-        panel.add(new JLabel("Start Year:"));
-        panel.add(startYearField);
-        panel.add(new JLabel("Start Month:"));
-        panel.add(startMonthField);
-        panel.add(new JLabel("End Year:"));
-        panel.add(endYearField);
-        panel.add(new JLabel("End Month:"));
-        panel.add(endMonthField);
-        panel.add(new JLabel("Description:"));
-        panel.add(descriptionField);
+        JPanel expPanel = new JPanel(new GridLayout(8, 2));
+        expPanel.add(new JLabel("Position:"));
+        expPanel.add(positionField);
+        expPanel.add(new JLabel("Company:"));
+        expPanel.add(institutionField);
+        expPanel.add(new JLabel("Location:"));
+        expPanel.add(locationField);
+        expPanel.add(new JLabel("Start Year:"));
+        expPanel.add(startYearField);
+        expPanel.add(new JLabel("Start Month:"));
+        expPanel.add(startMonthField);
+        expPanel.add(new JLabel("End Year:"));
+        expPanel.add(endYearField);
+        expPanel.add(new JLabel("End Month:"));
+        expPanel.add(endMonthField);
+        expPanel.add(new JLabel("Description:"));
+        expPanel.add(descriptionField);
 
-        addExperience(positionField, institutionField, locationField, startYearField,
+        addExperience(expPanel, positionField, institutionField, locationField, startYearField,
                 startMonthField, endYearField, endMonthField, descriptionField);
     }
 
-    // EFFECTS: creates an experience and adds to user resume
-    private void addExperience(JTextField positionField, JTextField institutionField, JTextField locationField,
-            JTextField startYearField, JTextField startMonthField, JTextField endYearField, JTextField endMonthField,
-            JTextField descriptionField) {
-        int result = JOptionPane.showConfirmDialog(this, panel, "Enter Experience", JOptionPane.OK_CANCEL_OPTION);
+    // EFFECTS: adds an experience to user resume
+    private void addExperience(JPanel expPanel, JTextField positionField, JTextField institutionField,
+            JTextField locationField, JTextField startYearField, JTextField startMonthField, JTextField endYearField,
+            JTextField endMonthField, JTextField descriptionField) {
+
+        int result = JOptionPane.showConfirmDialog(this, expPanel, "Enter Experience", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             Experience exp = new Experience(
                     positionField.getText(),
@@ -199,39 +204,48 @@ public class ResumeAppGUI extends JFrame {
                 experienceList = new ExperienceList();
             }
             experienceList.addExperience(exp);
-            displayArea.append("Experience successfully added!\n\n");
+            workDisplay.append("Experience successfully added!\n\n");
         }
     }
 
     // REQUIRES: model data to be collected before this method is called
     // EFFECTS: generates resume and displays content in the display area
     private void handleGenerateResume(ActionEvent e) {
-        if (profile != null) {
-            displayArea.append("\n=========== RESUME ===========\n");
-            displayArea.append("Name: " + profile.getName() + "\n");
-            displayArea.append("Phone: " + profile.getNumber() + "\n");
-            displayArea.append("Email: " + profile.getEmail() + "\n");
-            displayArea.append("Address: " + profile.getAddress() + "\n");
-            displayArea.append("Objective: " + profile.getObjective() + "\n\n");
-        } else {
-            displayArea.append("No profile added.\n\n");
-        }
+        printProfile();
+        printExperiences();
+    }
 
+    // EFFECTS: prints out profile on resumeDisplay
+    private void printProfile() {
+        if (profile != null) {
+            resumeDisplay.append("\n=========== RESUME ===========\n");
+            resumeDisplay.append("Name: " + profile.getName() + "\n");
+            resumeDisplay.append("Phone: " + profile.getNumber() + "\n");
+            resumeDisplay.append("Email: " + profile.getEmail() + "\n");
+            resumeDisplay.append("Address: " + profile.getAddress() + "\n");
+            resumeDisplay.append("Objective: " + profile.getObjective() + "\n\n");
+        } else {
+            resumeDisplay.append("No profile added.\n\n");
+        }
+    }
+
+    // EFFECTS: prints out experiences on resumeDisplay
+    private void printExperiences() {
         if (experienceList != null && !experienceList.getExperiences().isEmpty()) {
-            displayArea.append("EXPERIENCE\n\n");
+            resumeDisplay.append("EXPERIENCE\n\n");
             for (Experience exp : experienceList.getExperiences()) {
-                displayArea.append(exp.getPosition() + " - " + exp.getInstitution() + "\n");
+                resumeDisplay.append(exp.getPosition() + " - " + exp.getInstitution() + "\n");
                 if (exp.getEndYear().equals("0")) {
-                    displayArea.append(exp.getLocation() + " | " + exp.getStartMonth() + "/" + exp.getStartYear()
+                    resumeDisplay.append(exp.getLocation() + " | " + exp.getStartMonth() + "/" + exp.getStartYear()
                             + " - Present\n");
                 } else {
-                    displayArea.append(exp.getLocation() + " | " + exp.getStartMonth() + "/" + exp.getStartYear()
+                    resumeDisplay.append(exp.getLocation() + " | " + exp.getStartMonth() + "/" + exp.getStartYear()
                             + " - " + exp.getEndMonth() + "/" + exp.getEndYear() + "\n");
                 }
-                displayArea.append(exp.getDescription() + "\n\n");
+                resumeDisplay.append(exp.getDescription() + "\n\n");
             }
         } else {
-            displayArea.append("\nNo experiences to display.\n");
+            resumeDisplay.append("\nNo experiences to display.\n");
         }
     }
 }

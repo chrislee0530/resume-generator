@@ -5,14 +5,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+import model.Profile;
+
 public class ResumeAppGUI extends JFrame {
     private JMenuBar menuBar;
     private JPanel panel;
     private JButton addProfileButton;
-    private JButton addExperienceButton;
-    private JButton addEducationButton;
-    private JButton addSkillButton;
+    private JButton experienceButton;
+    private JButton educationButton;
+    private JButton skillsButton;
+    private JButton generateResumeButton;
     private JTextArea displayArea;
+    
+    private Profile profile;
 
     // MODIFIES: this
     // EFFECTS: initializes and creates ResumeAppGUI,
@@ -47,17 +52,17 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: initializes the button panel
     private void initializePanel() {
-        panel = new JPanel(new GridLayout(1, 4));
+        panel = new JPanel(new GridLayout(1, 5));
         addProfileButton = createButton("Add Profile", this::handleAddProfile);
-        addExperienceButton = createButton("Add Experience", this::handleAddExperience);
-        addEducationButton = createButton("Add Education", e -> {
-        });
-        addSkillButton = createButton("Add Skill", e -> {
-        });
+        experienceButton = createButton("Add Experience", this::handleAddExperience);
+        educationButton = createButton("Add Education", e -> {});
+        skillsButton = createButton("Add Skill", e -> {});
+        generateResumeButton = createButton("Generate Resume", this::handleGenerateResume);
         panel.add(addProfileButton);
-        panel.add(addExperienceButton);
-        panel.add(addEducationButton);
-        panel.add(addSkillButton);
+        panel.add(experienceButton);
+        panel.add(educationButton);
+        panel.add(skillsButton);
+        panel.add(generateResumeButton);
         add(panel, BorderLayout.NORTH);
     }
 
@@ -101,10 +106,9 @@ public class ResumeAppGUI extends JFrame {
 
         int result = JOptionPane.showConfirmDialog(this, panel, "Enter Profile", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-            String profileText = "Profile:\n" + "Name: " + nameField.getText() + "\n" +
-                    "Phone: " + phoneField.getText() + "\n" + "Email: " + emailField.getText() + "\n" +
-                    "Address: " + addressField.getText() + "\n" + "Objective: " + objectiveField.getText() + "\n\n";
-            displayArea.append(profileText);
+            profile = new Profile(nameField.getText(), phoneField.getText(), emailField.getText(),
+                    addressField.getText(), objectiveField.getText());
+            displayArea.append("Profile successfully added!\n\n");
         }
     }
 
@@ -112,45 +116,60 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: opens a panel with 8 textfields to input experience details
     private void handleAddExperience(ActionEvent e) {
-        JTextField positionField = new JTextField(10);
-        JTextField institutionField = new JTextField(10);
-        JTextField locationField = new JTextField(10);
-        JTextField startYearField = new JTextField(5);
-        JTextField startMonthField = new JTextField(5);
-        JTextField endYearField = new JTextField(5);
-        JTextField endMonthField = new JTextField(5);
-        JTextField descriptionField = new JTextField(10);
+    //     JTextField positionField = new JTextField(10);
+    //     JTextField institutionField = new JTextField(10);
+    //     JTextField locationField = new JTextField(10);
+    //     JTextField startYearField = new JTextField(5);
+    //     JTextField startMonthField = new JTextField(5);
+    //     JTextField endYearField = new JTextField(5);
+    //     JTextField endMonthField = new JTextField(5);
+    //     JTextField descriptionField = new JTextField(10);
 
-        JPanel panel = new JPanel(new GridLayout(8, 2));
-        panel.add(new JLabel("Position:"));
-        panel.add(positionField);
-        panel.add(new JLabel("Company:"));
-        panel.add(institutionField);
-        panel.add(new JLabel("Location:"));
-        panel.add(locationField);
-        panel.add(new JLabel("Start Year:"));
-        panel.add(startYearField);
-        panel.add(new JLabel("Start Month:"));
-        panel.add(startMonthField);
-        panel.add(new JLabel("End Year:"));
-        panel.add(endYearField);
-        panel.add(new JLabel("End Month:"));
-        panel.add(endMonthField);
-        panel.add(new JLabel("Description:"));
-        panel.add(descriptionField);
+    //     JPanel panel = new JPanel(new GridLayout(8, 2));
+    //     panel.add(new JLabel("Position:"));
+    //     panel.add(positionField);
+    //     panel.add(new JLabel("Company:"));
+    //     panel.add(institutionField);
+    //     panel.add(new JLabel("Location:"));
+    //     panel.add(locationField);
+    //     panel.add(new JLabel("Start Year:"));
+    //     panel.add(startYearField);
+    //     panel.add(new JLabel("Start Month:"));
+    //     panel.add(startMonthField);
+    //     panel.add(new JLabel("End Year:"));
+    //     panel.add(endYearField);
+    //     panel.add(new JLabel("End Month:"));
+    //     panel.add(endMonthField);
+    //     panel.add(new JLabel("Description:"));
+    //     panel.add(descriptionField);
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Enter Experience", JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-            String expText = "Experience:\n" +
-                    positionField.getText() + " - " + institutionField.getText() + "\n" +
-                    locationField.getText() + " | " +
-                    startMonthField.getText() + "/" + startYearField.getText() +
-                    " - "
-                    + (endYearField.getText().equals("0") ? "Present"
-                            : endMonthField.getText() + "/" + endYearField.getText())
-                    +
-                    "\n" + descriptionField.getText() + "\n\n";
-            displayArea.append(expText);
+    //     int result = JOptionPane.showConfirmDialog(this, panel, "Enter Experience", JOptionPane.OK_CANCEL_OPTION);
+    //     if (result == JOptionPane.OK_OPTION) {
+    //         String expText = "Experience:\n" +
+    //                 positionField.getText() + " - " + institutionField.getText() + "\n" +
+    //                 locationField.getText() + " | " +
+    //                 startMonthField.getText() + "/" + startYearField.getText() +
+    //                 " - "
+    //                 + (endYearField.getText().equals("0") ? "Present"
+    //                         : endMonthField.getText() + "/" + endYearField.getText())
+    //                 +
+    //                 "\n" + descriptionField.getText() + "\n\n";
+    //         displayArea.append(expText);
+    //    }
+    }
+
+    // EFFECTS: generates resume and displays content in the display area
+    // REQUIRES: model data to be collected before this method is called
+    private void handleGenerateResume(ActionEvent e) {
+        if (profile != null) {
+            displayArea.append("\n=========== RESUME ===========\n");
+            displayArea.append("Name: " + profile.getName() + "\n");
+            displayArea.append("Phone: " + profile.getNumber() + "\n");
+            displayArea.append("Email: " + profile.getEmail() + "\n");
+            displayArea.append("Address: " + profile.getAddress() + "\n");
+            displayArea.append("Objective: " + profile.getObjective() + "\n\n");
+        } else {
+            displayArea.append("No profile added.\n\n");
         }
     }
 }

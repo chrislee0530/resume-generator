@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+import model.Experience;
+import model.ExperienceList;
 import model.Profile;
 
 public class ResumeAppGUI extends JFrame {
@@ -16,8 +18,9 @@ public class ResumeAppGUI extends JFrame {
     private JButton skillsButton;
     private JButton generateResumeButton;
     private JTextArea displayArea;
-    
+
     private Profile profile;
+    private ExperienceList experienceList;
 
     // MODIFIES: this
     // EFFECTS: initializes and creates ResumeAppGUI,
@@ -54,9 +57,11 @@ public class ResumeAppGUI extends JFrame {
     private void initializePanel() {
         panel = new JPanel(new GridLayout(1, 5));
         addProfileButton = createButton("Add Profile", this::handleAddProfile);
-        experienceButton = createButton("Add Experience", this::handleAddExperience);
-        educationButton = createButton("Add Education", e -> {});
-        skillsButton = createButton("Add Skill", e -> {});
+        experienceButton = createButton("Experience", this::handleExperienceMenu);
+        educationButton = createButton("Education", e -> {
+        });
+        skillsButton = createButton("Skills", e -> {
+        });
         generateResumeButton = createButton("Generate Resume", this::handleGenerateResume);
         panel.add(addProfileButton);
         panel.add(experienceButton);
@@ -112,50 +117,75 @@ public class ResumeAppGUI extends JFrame {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: shows options to add or remove experience
+    private void handleExperienceMenu(ActionEvent e) {
+        String[] options = { "Add Experience", "Remove Experience" };
+        int choice = JOptionPane.showOptionDialog(this, "What would you like to do?", "Experience Options", 0,
+                3, null, // I NEED TO ADD IMAGE HERE LATER
+                options, options[0]);
+
+        if (choice == 0) {
+            handleAddExperience();
+        } else if (choice == 1) {
+            handleRemoveExperience();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: user can choose which experience to remove and removes from list
+    private void handleRemoveExperience() {
+        
+    }
+
     // NOTE: this code is based off of SmartHome actionPerformed() code
     // MODIFIES: this
     // EFFECTS: opens a panel with 8 textfields to input experience details
-    private void handleAddExperience(ActionEvent e) {
-    //     JTextField positionField = new JTextField(10);
-    //     JTextField institutionField = new JTextField(10);
-    //     JTextField locationField = new JTextField(10);
-    //     JTextField startYearField = new JTextField(5);
-    //     JTextField startMonthField = new JTextField(5);
-    //     JTextField endYearField = new JTextField(5);
-    //     JTextField endMonthField = new JTextField(5);
-    //     JTextField descriptionField = new JTextField(10);
+    private void handleAddExperience() {
+        JTextField positionField = new JTextField(10);
+        JTextField institutionField = new JTextField(10);
+        JTextField locationField = new JTextField(10);
+        JTextField startYearField = new JTextField(5);
+        JTextField startMonthField = new JTextField(5);
+        JTextField endYearField = new JTextField(5);
+        JTextField endMonthField = new JTextField(5);
+        JTextField descriptionField = new JTextField(10);
 
-    //     JPanel panel = new JPanel(new GridLayout(8, 2));
-    //     panel.add(new JLabel("Position:"));
-    //     panel.add(positionField);
-    //     panel.add(new JLabel("Company:"));
-    //     panel.add(institutionField);
-    //     panel.add(new JLabel("Location:"));
-    //     panel.add(locationField);
-    //     panel.add(new JLabel("Start Year:"));
-    //     panel.add(startYearField);
-    //     panel.add(new JLabel("Start Month:"));
-    //     panel.add(startMonthField);
-    //     panel.add(new JLabel("End Year:"));
-    //     panel.add(endYearField);
-    //     panel.add(new JLabel("End Month:"));
-    //     panel.add(endMonthField);
-    //     panel.add(new JLabel("Description:"));
-    //     panel.add(descriptionField);
+        JPanel panel = new JPanel(new GridLayout(8, 2));
+        panel.add(new JLabel("Position:"));
+        panel.add(positionField);
+        panel.add(new JLabel("Company:"));
+        panel.add(institutionField);
+        panel.add(new JLabel("Location:"));
+        panel.add(locationField);
+        panel.add(new JLabel("Start Year:"));
+        panel.add(startYearField);
+        panel.add(new JLabel("Start Month:"));
+        panel.add(startMonthField);
+        panel.add(new JLabel("End Year:"));
+        panel.add(endYearField);
+        panel.add(new JLabel("End Month:"));
+        panel.add(endMonthField);
+        panel.add(new JLabel("Description:"));
+        panel.add(descriptionField);
 
-    //     int result = JOptionPane.showConfirmDialog(this, panel, "Enter Experience", JOptionPane.OK_CANCEL_OPTION);
-    //     if (result == JOptionPane.OK_OPTION) {
-    //         String expText = "Experience:\n" +
-    //                 positionField.getText() + " - " + institutionField.getText() + "\n" +
-    //                 locationField.getText() + " | " +
-    //                 startMonthField.getText() + "/" + startYearField.getText() +
-    //                 " - "
-    //                 + (endYearField.getText().equals("0") ? "Present"
-    //                         : endMonthField.getText() + "/" + endYearField.getText())
-    //                 +
-    //                 "\n" + descriptionField.getText() + "\n\n";
-    //         displayArea.append(expText);
-    //    }
+        int result = JOptionPane.showConfirmDialog(this, panel, "Enter Experience", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            Experience exp = new Experience(
+                    positionField.getText(),
+                    institutionField.getText(),
+                    locationField.getText(),
+                    startYearField.getText(),
+                    startMonthField.getText(),
+                    endYearField.getText(),
+                    endMonthField.getText(),
+                    descriptionField.getText());
+            if (experienceList == null) {
+                experienceList = new ExperienceList();
+            }
+            experienceList.addExperience(exp);
+            displayArea.append("Experience successfully added!\n\n");
+        }
     }
 
     // EFFECTS: generates resume and displays content in the display area
@@ -170,6 +200,22 @@ public class ResumeAppGUI extends JFrame {
             displayArea.append("Objective: " + profile.getObjective() + "\n\n");
         } else {
             displayArea.append("No profile added.\n\n");
+        }
+
+        if (experienceList != null && !experienceList.getExperiences().isEmpty()) {
+            displayArea.append("EXPERIENCE\n\n");
+            for (Experience exp : experienceList.getExperiences()) {
+                displayArea.append(exp.getPosition() + " - " + exp.getInstitution() + "\n");
+                if (exp.getEndYear().equals("0")) {
+                    displayArea.append(exp.getLocation() + " | " + exp.getStartMonth() + "/" + exp.getStartYear() + " - Present\n");
+                } else {
+                    displayArea.append(exp.getLocation() + " | " + exp.getStartMonth() + "/" + exp.getStartYear()
+                            + " - " + exp.getEndMonth() + "/" + exp.getEndYear() + "\n");
+                }
+                displayArea.append(exp.getDescription() + "\n\n");
+            }
+        } else {
+            displayArea.append("\nNo experiences to display");
         }
     }
 }

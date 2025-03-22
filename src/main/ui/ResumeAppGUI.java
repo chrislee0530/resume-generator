@@ -11,6 +11,8 @@ import model.EducationList;
 import model.Experience;
 import model.ExperienceList;
 import model.Profile;
+import model.Skill;
+import model.Skills;
 
 public class ResumeAppGUI extends JFrame {
     private JMenuBar menuBar;
@@ -26,6 +28,7 @@ public class ResumeAppGUI extends JFrame {
     private Profile profile;
     private ExperienceList experienceList;
     private EducationList educationList;
+    private Skills skills;
 
     // MODIFIES: this
     // EFFECTS: initializes and creates ResumeAppGUI,
@@ -65,8 +68,7 @@ public class ResumeAppGUI extends JFrame {
         addProfileButton.setPreferredSize(new Dimension(140, 35));
         experienceButton = createButton("Experience", this::handleExperienceMenu);
         educationButton = createButton("Education", this::handleEducationMenu);
-        skillsButton = createButton("Skills", e -> {
-        });
+        skillsButton = createButton("Skills", this::handleSkillsMenu);
         generateResumeButton = createButton("Generate Resume", this::handleGenerateResume);
         panel.add(addProfileButton);
         panel.add(experienceButton);
@@ -129,6 +131,72 @@ public class ResumeAppGUI extends JFrame {
     }
 
     // MODIFIES: this
+    // EFFECTS: shows options to add, remove, or reorder skills
+    private void handleSkillsMenu(ActionEvent e) {
+        String[] options = { "Add Skill", "Remove ALL Skills", "Reorder Skills" };
+        int choice = JOptionPane.showOptionDialog(this, "What would you like to do?",
+                "Skills Options", 0, 3, null, options, options[0]);
+
+        if (choice == 0) {
+            handleAddSkill();
+        } else if (choice == 1) {
+            handleRemoveSkills();
+        } else if (choice == 2) {
+            handleReorderSkills();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: opens an skills panel with 2 textfields to input skill detail
+    private void handleAddSkill() {
+        JTextField titleField = new JTextField(10);
+        JTextField levelField = new JTextField(5);
+
+        JPanel skillPanel = new JPanel(new GridLayout(2, 2));
+        skillPanel.add(new JLabel("Title:"));
+        skillPanel.add(titleField);
+        skillPanel.add(new JLabel("Level:"));
+        skillPanel.add(levelField);
+
+        int result = JOptionPane.showConfirmDialog(this, skillPanel, "Enter Skill", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            Skill skill = new Skill(titleField.getText(), Integer.parseInt(levelField.getText()));
+            if (skills == null)
+                skills = new Skills();
+            skills.addSkill(skill);
+            workDisplay.append("Skill successfully added!\n\n");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes all skills from user resume
+    private void handleRemoveSkills() {
+        if (skills.getSkills().isEmpty()) {
+            workDisplay.append("No skills to remove.");
+        } else {
+            skills.getSkills().removeAll(skills.getSkills());
+            workDisplay.append("All skills removed!\n");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: reorders all skills from highest level to lowest
+    private void handleReorderSkills() {
+        if (skills.getSkills().isEmpty()) {
+            workDisplay.append("No skills to reorder.");
+        } else {
+            ArrayList<Skill> skillList = skills.getSkills();
+            skillList = skills.topSkills(skills.getSkills().size());
+            skills.getSkills().removeAll(skills.getSkills());
+            for (Skill s : skillList) {
+                skills.addSkill(s);
+            }
+            workDisplay.append("Skills reordered from highest to lowest level!\n\n");
+        }
+
+    }
+
+    // MODIFIES: this
     // EFFECTS: shows options to add or remove education
     private void handleEducationMenu(ActionEvent e) {
         String[] options = { "Add Education", "Remove ALL Educations" };
@@ -156,6 +224,10 @@ public class ResumeAppGUI extends JFrame {
         workDisplay.append("All educations removed!\n");
     }
 
+    // NOTE: this code is based off of SmartHome actionPerformed() code
+    // MODIFIES: this
+    // EFFECTS: opens an education panel with 8 textfields to input education
+    // details
     private void handleAddEducation() {
         JTextField gpaField = new JTextField(10);
         JTextField institutionField = new JTextField(10);
@@ -183,6 +255,15 @@ public class ResumeAppGUI extends JFrame {
         eduPanel.add(endMonthField);
         eduPanel.add(new JLabel("Description:"));
         eduPanel.add(descriptionField);
+
+        addEducation(eduPanel, gpaField, institutionField, locationField,
+                startYearField, startMonthField, endYearField, endMonthField, descriptionField);
+    }
+
+    // EFFECTS: adds an experience to user resume
+    private void addEducation(JPanel eduPanel, JTextField gpaField, JTextField institutionField,
+            JTextField locationField, JTextField startYearField, JTextField startMonthField, JTextField endYearField,
+            JTextField endMonthField, JTextField descriptionField) {
 
         int result = JOptionPane.showConfirmDialog(this, eduPanel, "Enter Education", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
@@ -287,9 +368,11 @@ public class ResumeAppGUI extends JFrame {
     // REQUIRES: model data to be collected before this method is called
     // EFFECTS: generates resume and displays content in the display area
     private void handleGenerateResume(ActionEvent e) {
+        resumeDisplay.setText("");
         printProfile();
         printExperiences();
         printEducations();
+        printSkills();
     }
 
     // EFFECTS: prints out profile on resumeDisplay
@@ -297,7 +380,7 @@ public class ResumeAppGUI extends JFrame {
         if (profile != null) {
             resumeDisplay.append("\n=========== RESUME ===========\n\n");
             resumeDisplay.append(profile.getName() + "\n");
-            resumeDisplay.append(profile.getNumber() + "|" + profile.getEmail() + "|" + profile.getAddress()+ "\n");
+            resumeDisplay.append(profile.getNumber() + "|" + profile.getEmail() + "|" + profile.getAddress() + "\n");
             resumeDisplay.append(profile.getObjective() + "\n\n");
         } else {
             resumeDisplay.append("No profile added.\n\n");
@@ -342,6 +425,18 @@ public class ResumeAppGUI extends JFrame {
             }
         } else {
             resumeDisplay.append("\nNo education to display.\n");
+        }
+    }
+
+    // EFFECTS: prints out skills on resumeDisplay
+    private void printSkills() {
+        if (skills != null && !skills.getSkills().isEmpty()) {
+            resumeDisplay.append("SKILLS\n\n");
+            for (Skill s : skills.getSkills()) {
+                resumeDisplay.append(s.getTitle() + " | " + "Level: " + s.getLevel() + "\n");
+            }
+        } else {
+            resumeDisplay.append("\nNo skills to display.\n");
         }
     }
 }

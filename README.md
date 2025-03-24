@@ -15,3 +15,18 @@ The users will get to enter their information in response to specific prompts. A
 - As a user, I want to view the final version of my resume
 - As a user, when I select the quit option from the application menu, I want to be reminded to save all resume information (educations, experiences, skills, etc.) to file and have the option to do so or not
 - As a user, when I start the application, I want to be given the option to load my resume information from file.
+
+## Instructions for End User
+
+1. Start by clicking Add profile to add your profile to resume
+2. Fill out your profile information in each text field
+3. Add experience, education, and skills by clikcing buttons at the top of the application
+4. If you want to remove all experiences, educations, and list of skills, click the button accordingly
+   at the top of the application and click 'remove ALL' button
+5. To reorder your experience based on the level of your skills, click the Skills button to open up the 
+   skills panel and click 'Reorder Skills' button
+6. To generate resume, click 'Generate Resume' button at the top-right corner of the application
+
+- To save your resume, click the file button at the top-left corner and click 'save' button
+- To load your resume, click the file button at the top-left corner and click 'load' button
+

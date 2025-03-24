@@ -461,7 +461,7 @@ public class ResumeAppGUI extends JFrame {
             resumeDisplay.append(profile.getNumber() + "|" + profile.getEmail() + "|" + profile.getAddress() + "\n");
             resumeDisplay.append(profile.getObjective() + "\n\n");
         } else {
-            resumeDisplay.append("No profile added.\n\n");
+            resumeDisplay.append("No profile added.\n");
         }
     }
 

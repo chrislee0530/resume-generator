@@ -2,17 +2,19 @@ package ui;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.util.ArrayList;
 
-import model.Education;
-import model.EducationList;
-import model.Experience;
-import model.ExperienceList;
-import model.Profile;
-import model.Skill;
-import model.Skills;
+import model.*;
+import persistence.JsonWriter;
+import persistence.JsonReader;
 
 public class ResumeAppGUI extends JFrame {
     private JMenuBar menuBar;
@@ -24,11 +26,19 @@ public class ResumeAppGUI extends JFrame {
     private JButton generateResumeButton;
     private JTextArea workDisplay;
     private JTextArea resumeDisplay;
+    private ImageIcon profileImg;
+    private ImageIcon expImg;
+    private ImageIcon eduImg;
+    private ImageIcon skillsImg;
+    private ImageIcon checkImg;
 
     private Profile profile;
     private ExperienceList experienceList;
     private EducationList educationList;
     private Skills skills;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private static final String JSON_STORE = "./data/resume.json";
 
     // MODIFIES: this
     // EFFECTS: initializes and creates ResumeAppGUI,
@@ -41,6 +51,8 @@ public class ResumeAppGUI extends JFrame {
         initializePanel();
         initializeDisplayArea();
         setVisible(true);
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     public static void main(String[] args) {
@@ -54,6 +66,8 @@ public class ResumeAppGUI extends JFrame {
         JMenu fileMenu = new JMenu("File");
         JMenuItem saveItem = new JMenuItem("Save");
         JMenuItem loadItem = new JMenuItem("Load");
+        saveItem.addActionListener(this::handleSave);
+        loadItem.addActionListener(this::handleLoad);
         fileMenu.add(saveItem);
         fileMenu.add(loadItem);
         menuBar.add(fileMenu);
@@ -63,13 +77,18 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: initializes the button panel
     private void initializePanel() {
+        profileImg = new ImageIcon("/Users/chrislee/Desktop/profile.png");
+        expImg = new ImageIcon("/Users/chrislee/Desktop/experience.png");
+        eduImg = new ImageIcon("/Users/chrislee/Desktop/education.png");
+        skillsImg = new ImageIcon("/Users/chrislee/Desktop/skills.png");
+        checkImg = new ImageIcon("/Users/chrislee/Desktop/check.png");
         panel = new JPanel(new GridLayout(1, 5));
-        addProfileButton = createButton("Add Profile", this::handleAddProfile);
+        addProfileButton = createButton("Add Profile", this::handleAddProfile, profileImg);
         addProfileButton.setPreferredSize(new Dimension(140, 35));
-        experienceButton = createButton("Experience", this::handleExperienceMenu);
-        educationButton = createButton("Education", this::handleEducationMenu);
-        skillsButton = createButton("Skills", this::handleSkillsMenu);
-        generateResumeButton = createButton("Generate Resume", this::handleGenerateResume);
+        experienceButton = createButton("Experience", this::handleExperienceMenu, expImg);
+        educationButton = createButton("Education", this::handleEducationMenu, eduImg);
+        skillsButton = createButton("Skills", this::handleSkillsMenu, skillsImg);
+        generateResumeButton = createButton("Generate Resume", this::handleGenerateResume, checkImg);
         panel.add(addProfileButton);
         panel.add(experienceButton);
         panel.add(educationButton);
@@ -93,10 +112,63 @@ public class ResumeAppGUI extends JFrame {
     }
 
     // EFFECTS: Creates and returns a button with an action listener
-    private JButton createButton(String label, ActionListener a) {
-        JButton button = new JButton(label);
+    private JButton createButton(String label, ActionListener a, ImageIcon img) {
+        JButton button = new JButton(label, img);
         button.addActionListener(a);
         return button;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: stores all information in one resume and saves
+    private void handleSave(ActionEvent e) {
+        Resume resume = new Resume();
+        if (profile != null) {
+            resume.setProfile(profile);
+        }
+        if (experienceList != null) {
+            for (Experience exp : experienceList.getExperiences()) {
+                resume.addExperience(exp);
+            }
+        }
+        if (educationList != null) {
+            for (Education edu : educationList.getEducations()) {
+                resume.addEducation(edu);
+            }
+        }
+        if (skills != null) {
+            for (Skill s : skills.getSkills()) {
+                resume.addSkill(s);
+            }
+        }
+        saveResume(resume);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: saves resume into JSON file
+    private void saveResume(Resume resume) {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(resume);
+            jsonWriter.close();
+            workDisplay.append("Saved your resume to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            workDisplay.append("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads resume from JSON file and sets data to local variables
+    private void handleLoad(ActionEvent e) {
+        try {
+            Resume resume = jsonReader.read();
+            this.profile = resume.getProfile();
+            this.experienceList = resume.getExperienceList();
+            this.educationList = resume.getEducationList();
+            this.skills = resume.getSkillsList();
+            workDisplay.append("Loaded your resume from " + JSON_STORE);
+        } catch (IOException exception) {
+            workDisplay.append("Unable to write to file: " + JSON_STORE);
+        }
     }
 
     // NOTE: this code is based off of SmartHome actionPerformed() code
@@ -133,6 +205,7 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: shows options to add, remove, or reorder skills
     private void handleSkillsMenu(ActionEvent e) {
+
         String[] options = { "Add Skill", "Remove ALL Skills", "Reorder Skills" };
         int choice = JOptionPane.showOptionDialog(this, "What would you like to do?",
                 "Skills Options", 0, 3, null, options, options[0]);
@@ -224,6 +297,7 @@ public class ResumeAppGUI extends JFrame {
         workDisplay.append("All educations removed!\n");
     }
 
+    @SuppressWarnings("methodlength")
     // NOTE: this code is based off of SmartHome actionPerformed() code
     // MODIFIES: this
     // EFFECTS: opens an education panel with 8 textfields to input education
@@ -305,6 +379,7 @@ public class ResumeAppGUI extends JFrame {
         workDisplay.append("All experiences removed!\n");
     }
 
+    @SuppressWarnings("methodlength")
     // NOTE: this code is based off of SmartHome actionPerformed() code
     // MODIFIES: this
     // EFFECTS: opens an experience panel with 8 textfields to input experience
@@ -362,6 +437,7 @@ public class ResumeAppGUI extends JFrame {
             }
             experienceList.addExperience(exp);
             workDisplay.append("Experience successfully added!\n\n");
+            
         }
     }
 
@@ -439,4 +515,6 @@ public class ResumeAppGUI extends JFrame {
             resumeDisplay.append("\nNo skills to display.\n");
         }
     }
+
+    // EFFECTS: 
 }

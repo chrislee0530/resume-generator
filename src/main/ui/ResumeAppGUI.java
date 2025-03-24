@@ -56,7 +56,7 @@ public class ResumeAppGUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        new ResumeAppGUI();
+        new ResumeAppGUI().showSplashScreen();
     }
 
     // MODIFIES: this
@@ -234,8 +234,9 @@ public class ResumeAppGUI extends JFrame {
         int result = JOptionPane.showConfirmDialog(this, skillPanel, "Enter Skill", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             Skill skill = new Skill(titleField.getText(), Integer.parseInt(levelField.getText()));
-            if (skills == null)
+            if (skills == null) {
                 skills = new Skills();
+            }
             skills.addSkill(skill);
             workDisplay.append("Skill successfully added!\n\n");
         }
@@ -344,8 +345,9 @@ public class ResumeAppGUI extends JFrame {
             Education edu = new Education(gpaField.getText(), institutionField.getText(), locationField.getText(),
                     startYearField.getText(), startMonthField.getText(), endYearField.getText(),
                     endMonthField.getText(), descriptionField.getText());
-            if (educationList == null)
+            if (educationList == null) {
                 educationList = new EducationList();
+            }
             educationList.addEducation(edu);
             workDisplay.append("Education successfully added!\n\n");
         }
@@ -437,7 +439,7 @@ public class ResumeAppGUI extends JFrame {
             }
             experienceList.addExperience(exp);
             workDisplay.append("Experience successfully added!\n\n");
-            
+
         }
     }
 
@@ -516,5 +518,33 @@ public class ResumeAppGUI extends JFrame {
         }
     }
 
-    // EFFECTS: 
+    // EFFECTS: shows a resume icon for 2 seconds in the middle of the screen
+    // NOTE: Here are the reference links I used to build this method:
+    // https://stackoverflow.com/questions/69275599/jframe-splash-screen-wont-display-an-image
+    // https://docs.oracle.com/javase/tutorial/uiswing/misc/splashscreen.html
+    // https://www.geeksforgeeks.org/java-program-to-print-screen-resolution/
+
+    private void showSplashScreen() {
+        JWindow splash = new JWindow();
+        ImageIcon splashImage = new ImageIcon("/Users/chrislee/Desktop/resume.png");
+        JLabel imageLabel = new JLabel(splashImage);
+        splash.getContentPane().add(imageLabel);
+        splash.pack();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - splash.getSize().width) / 2;
+        int y = (screenSize.height - splash.getSize().height) / 2;
+        splash.setLocation(x, y);
+
+        splash.setVisible(true);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // shouldn't catch anything
+        }
+
+        splash.setVisible(false);
+        splash.dispose();
+    }
 }

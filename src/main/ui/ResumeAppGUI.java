@@ -77,11 +77,11 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: initializes the button panel
     private void initializePanel() {
-        profileImg = new ImageIcon("/Users/chrislee/Desktop/profile.png");
-        expImg = new ImageIcon("/Users/chrislee/Desktop/experience.png");
-        eduImg = new ImageIcon("/Users/chrislee/Desktop/education.png");
-        skillsImg = new ImageIcon("/Users/chrislee/Desktop/skills.png");
-        checkImg = new ImageIcon("/Users/chrislee/Desktop/check.png");
+        profileImg = new ImageIcon("./icons/profile.png");
+        expImg = new ImageIcon("./icons/experience.png");
+        eduImg = new ImageIcon("./icons/education.png");
+        skillsImg = new ImageIcon("./icons/skills.png");
+        checkImg = new ImageIcon("./icons/check.png");
         panel = new JPanel(new GridLayout(1, 5));
         addProfileButton = createButton("Add Profile", this::handleAddProfile, profileImg);
         addProfileButton.setPreferredSize(new Dimension(140, 35));
@@ -526,7 +526,7 @@ public class ResumeAppGUI extends JFrame {
 
     private void showSplashScreen() {
         JWindow splash = new JWindow();
-        ImageIcon splashImage = new ImageIcon("/Users/chrislee/Desktop/resume.png");
+        ImageIcon splashImage = new ImageIcon("./icons/resume.png");
         JLabel imageLabel = new JLabel(splashImage);
         splash.getContentPane().add(imageLabel);
         splash.pack();

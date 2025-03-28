@@ -37,4 +37,3 @@ The users will get to enter their information in response to specific prompts. A
 - "All skills removed from resume!""
 - "Skills reordered from highest to lowest level!"
 
-

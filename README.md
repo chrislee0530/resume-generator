@@ -30,3 +30,11 @@ The users will get to enter their information in response to specific prompts. A
 - To save your resume, click the file button at the top-left corner and click 'save' button
 - To load your resume, click the file button at the top-left corner and click 'load' button
 
+## Phase 4: Task 2
+- "A new profile added to resume!"
+- "A new experience added to resume!"
+- "All educations removed from resume!"
+- "All skills removed from resume!""
+- "Skills reordered from highest to lowest level!"
+
+

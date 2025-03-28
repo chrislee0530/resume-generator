@@ -83,6 +83,7 @@ public class ExperienceList implements Writable {
         if (!experienceList.contains(experience)) {
             experienceList.add(experience);
         }
+        EventLog.getInstance().logEvent(new Event("A new experience added to resume!"));
     }
 
     // MODIFIES: this
@@ -91,6 +92,13 @@ public class ExperienceList implements Writable {
         if (experienceList.contains(experience)) {
             experienceList.remove(experience);
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes all experiences from the experience list
+    public void removeExperiences() {
+        experienceList.removeAll(experienceList);
+        EventLog.getInstance().logEvent(new Event("All experiences removed from resume!"));
     }
 
     // EFFECTS: returns the list of experience

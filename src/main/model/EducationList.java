@@ -52,6 +52,7 @@ public class EducationList implements Writable {
         if (!educationList.contains(education)) {
             educationList.add(education);
         }
+        EventLog.getInstance().logEvent(new Event("A new education added to resume!"));
     }
 
     // MODIFIES: this
@@ -60,6 +61,13 @@ public class EducationList implements Writable {
         if (educationList.contains(education)) {
             educationList.remove(education);
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes all education from education list
+    public void removeEducations() {
+        educationList.removeAll(educationList);
+        EventLog.getInstance().logEvent(new Event("All educations removed from resume!"));
     }
 
     // EFFECTS: returns the list of education

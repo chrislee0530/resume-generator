@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 import model.*;
+import model.Event;
 import persistence.JsonWriter;
 import persistence.JsonReader;
 
@@ -24,13 +25,17 @@ public class ResumeAppGUI extends JFrame {
     private JButton educationButton;
     private JButton skillsButton;
     private JButton generateResumeButton;
+    private JButton quitButton;
+
     private JTextArea workDisplay;
     private JTextArea resumeDisplay;
+
     private ImageIcon profileImg;
     private ImageIcon expImg;
     private ImageIcon eduImg;
     private ImageIcon skillsImg;
     private ImageIcon checkImg;
+    private ImageIcon quitImg;
 
     private Profile profile;
     private ExperienceList experienceList;
@@ -45,7 +50,7 @@ public class ResumeAppGUI extends JFrame {
     public ResumeAppGUI() {
         super("Resume Generator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1000, 600);
         setLayout(new BorderLayout());
         initializeMenu();
         initializePanel();
@@ -82,18 +87,21 @@ public class ResumeAppGUI extends JFrame {
         eduImg = new ImageIcon("./icons/education.png");
         skillsImg = new ImageIcon("./icons/skills.png");
         checkImg = new ImageIcon("./icons/check.png");
-        panel = new JPanel(new GridLayout(1, 5));
+        quitImg = new ImageIcon("./icons/shutdown.png");
+        panel = new JPanel(new GridLayout(1, 6));
         addProfileButton = createButton("Add Profile", this::handleAddProfile, profileImg);
         addProfileButton.setPreferredSize(new Dimension(140, 35));
         experienceButton = createButton("Experience", this::handleExperienceMenu, expImg);
         educationButton = createButton("Education", this::handleEducationMenu, eduImg);
         skillsButton = createButton("Skills", this::handleSkillsMenu, skillsImg);
         generateResumeButton = createButton("Generate Resume", this::handleGenerateResume, checkImg);
+        quitButton = createButton("Quit", this::quitProgram, quitImg);
         panel.add(addProfileButton);
         panel.add(experienceButton);
         panel.add(educationButton);
         panel.add(skillsButton);
         panel.add(generateResumeButton);
+        panel.add(quitButton);
         add(panel, BorderLayout.NORTH);
     }
 
@@ -169,6 +177,15 @@ public class ResumeAppGUI extends JFrame {
         } catch (IOException exception) {
             workDisplay.append("Unable to write to file: " + JSON_STORE);
         }
+    }
+
+    // EFFECTS: quits the program
+    private void quitProgram(ActionEvent e) {
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.getDate());
+            System.out.println(event.getDescription());
+        }
+        System.exit(0);
     }
 
     // NOTE: this code is based off of SmartHome actionPerformed() code
@@ -248,7 +265,7 @@ public class ResumeAppGUI extends JFrame {
         if (skills.getSkills().isEmpty()) {
             workDisplay.append("No skills to remove.");
         } else {
-            skills.getSkills().removeAll(skills.getSkills());
+            skills.removeSkills();
             workDisplay.append("All skills removed!\n");
         }
     }
@@ -294,7 +311,7 @@ public class ResumeAppGUI extends JFrame {
             workDisplay.append("No educations to remove.\n\n");
             return;
         }
-        educations.removeAll(educations);
+        educationList.removeEducations();
         workDisplay.append("All educations removed!\n");
     }
 
@@ -377,7 +394,7 @@ public class ResumeAppGUI extends JFrame {
             workDisplay.append("No experiences to remove.\n\n");
             return;
         }
-        experiences.removeAll(experiences);
+        experienceList.removeExperiences();
         workDisplay.append("All experiences removed!\n");
     }
 

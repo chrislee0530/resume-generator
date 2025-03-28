@@ -19,6 +19,7 @@ public class Profile implements Writable {
         this.email = email;
         this.address = address;
         this.objective = objective;
+        EventLog.getInstance().logEvent(new Event("A new profile added to resume!"));
     }
 
     // EFFECTS: returns the user's name

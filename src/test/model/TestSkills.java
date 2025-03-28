@@ -148,4 +148,13 @@ public class TestSkills {
         assertEquals("b", skillJson2.getString("title"));
         assertEquals(3, skillJson2.getInt("level"));
     }
+
+    @Test
+    void testRemoveSkills() {
+        skills.addSkill(a);
+        skills.addSkill(b);
+
+        skills.removeSkills();
+        assertTrue(skills.getSkills().isEmpty());
+    }
 }

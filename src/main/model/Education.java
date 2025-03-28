@@ -27,7 +27,6 @@ public class Education implements Writable {
         this.endYear = endYear;
         this.endMonth = endMonth;
         this.description = description;
-
     }
 
     // EFFECTS: converts this education into a JSON object

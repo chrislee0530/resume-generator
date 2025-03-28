@@ -189,4 +189,13 @@ public class TestEducationList {
         assertEquals("educationB", educationB.getString("description"));
     }
 
+    @Test
+    public void testRemoveEducations() {
+        educationList.addEducation(educationA);
+        educationList.addEducation(educationB);
+
+        educationList.removeEducations();
+        assertTrue(educationList.getEducations().isEmpty());
+    }
+
 }

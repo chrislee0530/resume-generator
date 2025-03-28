@@ -208,5 +208,14 @@ public class TestExperienceList {
         assertEquals("COMM 190 Professor", experienceA.getString("description"));
     }
 
+    @Test
+    public void testRemoveExperiences() {
+        experienceList.addExperience(experienceA);
+        experienceList.addExperience(experienceB);
+
+        experienceList.removeExperiences();
+        assertTrue(experienceList.getExperiences().isEmpty());
+    }
+
 
 }

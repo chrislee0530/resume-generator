@@ -43,6 +43,8 @@ public class Skills implements Writable {
             max = 0;
         }
 
+        EventLog.getInstance().logEvent(new Event("Skills reordered from highest to lowest level!"));
+
         return topSkills;
     }
 
@@ -52,6 +54,7 @@ public class Skills implements Writable {
         if (!skills.contains(skill)) {
             skills.add(skill);
         }
+        EventLog.getInstance().logEvent(new Event("A new skill added to resume!"));
     }
 
     // MODIFIES: this
@@ -60,6 +63,13 @@ public class Skills implements Writable {
         if (skills.contains(skill)) {
             skills.remove(skill);
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes all skills from the list if it exists
+    public void removeSkills() {
+        skills.removeAll(skills);
+        EventLog.getInstance().logEvent(new Event("All skills removed from resume!"));
     }
 
     // EFFECTS: returns the list of skills
@@ -83,7 +93,7 @@ public class Skills implements Writable {
         for (Skill s : skills) {
             jsonArray.put(s.toJson());
         }
-        
+
         return jsonArray;
     }
 

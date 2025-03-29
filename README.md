@@ -56,3 +56,10 @@ All skills removed from resume!
 Sat Mar 29 03:10:06 PDT 2025
 All educations removed from resume!
 
+
+## Phase 4: Task 3
+If I had more time with this project, there are many refactoring I would use to improve the design. First of all, I would definitely make make one abstract class "Component" which Education, Experience, and Skill class can all extend to. The reasoning behind this refactoring is two folds - (1) there are so many duplicate codes in Education, Experience, and Skill class such as all setters and getters which could be refactored into just one abstract class and (2) because of this redundancy, it would be very inefficient if I wanted to add another component to resume such as Awards or Accomplishment section as I would have to write all getters and setters again in each class. This refactoring will also reduce significant amount of redundancy in ResumeApp methods because if these were refacotred, that there can be just one method addComponent instead of addEducation, addExperience, and addSkill all separate
+
+Secondly, I would get rid of all classes that represent lists of a class such as EducaitonList class and ExperienceList class. Instead, I would just simple have fields in resume that would be something like ArrayList<Experience> or ArrayList<Education>. This will reduce the complexity of the project because the current model has a list of list which is extremely unnecessary to have considering the purpose and usage of the list.
+
+Lastly, I would refactor the mostRecentExperience and mostRecentEducation method into just one method mostRecent in resume where the list of Education and Experience will be. Since those two methods are fundamentally exact same methods but just dealing with either Experience or Education, this refactoring will reduce the unnecessary redundancy in my code.

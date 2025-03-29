@@ -31,9 +31,28 @@ The users will get to enter their information in response to specific prompts. A
 - To load your resume, click the file button at the top-left corner and click 'load' button
 
 ## Phase 4: Task 2
-- "A new profile added to resume!"
-- "A new experience added to resume!"
-- "All educations removed from resume!"
-- "All skills removed from resume!""
-- "Skills reordered from highest to lowest level!"
+Sat Mar 29 03:09:09 PDT 2025
+A new profile added to resume!
+Sat Mar 29 03:09:30 PDT 2025
+A new experience added to resume!
+Sat Mar 29 03:09:40 PDT 2025
+A new education added to resume!
+Sat Mar 29 03:09:48 PDT 2025
+A new skill added to resume!
+Sat Mar 29 03:09:53 PDT 2025
+A new skill added to resume!
+Sat Mar 29 03:09:58 PDT 2025
+A new skill added to resume!
+Sat Mar 29 03:10:00 PDT 2025
+Skills reordered from highest to lowest level!
+Sat Mar 29 03:10:00 PDT 2025
+A new skill added to resume!
+Sat Mar 29 03:10:00 PDT 2025
+A new skill added to resume!
+Sat Mar 29 03:10:00 PDT 2025
+A new skill added to resume!
+Sat Mar 29 03:10:02 PDT 2025
+All skills removed from resume!
+Sat Mar 29 03:10:06 PDT 2025
+All educations removed from resume!
 

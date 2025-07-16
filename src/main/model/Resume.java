@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONObject;
 
 import persistence.Writable;
@@ -7,16 +10,17 @@ import persistence.Writable;
 // Represents an entire resume, containing profile, experiences, education, and skills
 public class Resume implements Writable {
     private Profile profile;
-    private ExperienceList experienceList;
-    private EducationList educationList;
-    private Skills skillsList;
+    private List<Experience> experiences;
+    private List<Education> educations;
+    private List<Skill> skills;
 
-    // EFFECTS: constructs an empty resume with no profile, experiences, education, or skills
+    // EFFECTS: constructs an empty resume with no profile, experiences, education,
+    // or skills
     public Resume() {
         this.profile = null;
-        this.experienceList = new ExperienceList();
-        this.educationList = new EducationList();
-        this.skillsList = new Skills();
+        this.experiences = new ArrayList<>();
+        educations = new ArrayList<>();
+        skills = new ArrayList<>();
     }
 
     // EFFECTS: converts this resume into a JSON object
@@ -24,13 +28,25 @@ public class Resume implements Writable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
+
         if (profile != null) {
             json.put("profile", profile.toJson());
         }
-        json.put("experiences", experienceList.toJsonArray());
-        json.put("educations", educationList.toJsonArray());
-        json.put("skills", skillsList.toJsonArray());
+
+        json.put("experiences", toJsonArray(experiences));
+        json.put("educations", toJsonArray(educations));
+        json.put("skills", toJsonArray(skills));
+
         return json;
+    }
+
+    // helper method
+    private <T extends Writable> org.json.JSONArray toJsonArray(List<T> list) {
+        org.json.JSONArray array = new org.json.JSONArray();
+        for (T item : list) {
+            array.put(item.toJson());
+        }
+        return array;
     }
 
     // MODIFIES: this
@@ -46,52 +62,52 @@ public class Resume implements Writable {
 
     // MODIFIES: this
     // EFFECTS: adds an experience to the resume
-    public void addExperience(Experience experience) {
-        experienceList.addExperience(experience);
+    public void addExperience(Experience exp) {
+        experiences.add(exp);
     }
 
     // MODIFIES: this
     // EFFECTS: removes an experience from the resume
     public void removeExperience(Experience experience) {
-        experienceList.removeExperience(experience);
+        experiences.remove(experience);
     }
 
     // EFFECTS: returns the experience list
-    public ExperienceList getExperienceList() {
-        return experienceList;
+    public List<Experience> getExperiences() {
+        return experiences;
     }
 
     // MODIFIES: this
     // EFFECTS: adds an education entry to the resume
-    public void addEducation(Education education) {
-        educationList.addEducation(education);
+    public void addEducation(Education edu) {
+        educations.add(edu);
     }
 
     // MODIFIES: this
     // EFFECTS: removes an education entry from the resume
     public void removeEducation(Education education) {
-        educationList.removeEducation(education);
+        educations.remove(education);
     }
 
     // EFFECTS: returns the education list
-    public EducationList getEducationList() {
-        return educationList;
+    public List<Education> getEducations() {
+        return educations;
     }
 
     // MODIFIES: this
     // EFFECTS: adds a skill to the resume
     public void addSkill(Skill skill) {
-        skillsList.addSkill(skill);
+        skills.add(skill);
     }
 
     // MODIFIES: this
     // EFFECTS: removes a skill from the resume
     public void removeSkill(Skill skill) {
-        skillsList.removeSkill(skill);
+        skills.remove(skill);
     }
 
     // EFFECTS: returns the list of skills
-    public Skills getSkillsList() {
-        return skillsList;
+    public List<Skill> getSkills() {
+        return skills;
     }
 }

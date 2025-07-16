@@ -10,7 +10,9 @@ import java.awt.event.ActionEvent;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import model.*;
 import model.Event;
@@ -38,9 +40,9 @@ public class ResumeAppGUI extends JFrame {
     private ImageIcon quitImg;
 
     private Profile profile;
-    private ExperienceList experienceList;
-    private EducationList educationList;
-    private Skills skills;
+    private List<Experience> experiences = new ArrayList<>();
+    private List<Education> educations = new ArrayList<>();
+    private List<Skill> skills = new ArrayList<>();
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private static final String JSON_STORE = "./data/resume.json";
@@ -133,21 +135,19 @@ public class ResumeAppGUI extends JFrame {
         if (profile != null) {
             resume.setProfile(profile);
         }
-        if (experienceList != null) {
-            for (Experience exp : experienceList.getExperiences()) {
-                resume.addExperience(exp);
-            }
+
+        for (Experience exp : experiences) {
+            resume.addExperience(exp);
         }
-        if (educationList != null) {
-            for (Education edu : educationList.getEducations()) {
-                resume.addEducation(edu);
-            }
+
+        for (Education edu : educations) {
+            resume.addEducation(edu);
         }
-        if (skills != null) {
-            for (Skill s : skills.getSkills()) {
-                resume.addSkill(s);
-            }
+
+        for (Skill s : skills) {
+            resume.addSkill(s);
         }
+
         saveResume(resume);
     }
 
@@ -170,9 +170,9 @@ public class ResumeAppGUI extends JFrame {
         try {
             Resume resume = jsonReader.read();
             this.profile = resume.getProfile();
-            this.experienceList = resume.getExperienceList();
-            this.educationList = resume.getEducationList();
-            this.skills = resume.getSkillsList();
+            this.experiences = resume.getExperiences();
+            this.educations = resume.getEducations();
+            this.skills = resume.getSkills();
             workDisplay.append("Loaded your resume from " + JSON_STORE);
         } catch (IOException exception) {
             workDisplay.append("Unable to write to file: " + JSON_STORE);
@@ -251,10 +251,7 @@ public class ResumeAppGUI extends JFrame {
         int result = JOptionPane.showConfirmDialog(this, skillPanel, "Enter Skill", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             Skill skill = new Skill(titleField.getText(), Integer.parseInt(levelField.getText()));
-            if (skills == null) {
-                skills = new Skills();
-            }
-            skills.addSkill(skill);
+            skills.add(skill);
             workDisplay.append("Skill successfully added!\n\n");
         }
     }
@@ -262,10 +259,10 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: removes all skills from user resume
     private void handleRemoveSkills() {
-        if (skills.getSkills().isEmpty()) {
+        if (skills.isEmpty()) {
             workDisplay.append("No skills to remove.");
         } else {
-            skills.removeSkills();
+            skills.clear();
             workDisplay.append("All skills removed!\n");
         }
     }
@@ -273,18 +270,12 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: reorders all skills from highest level to lowest
     private void handleReorderSkills() {
-        if (skills.getSkills().isEmpty()) {
+        if (skills.isEmpty()) {
             workDisplay.append("No skills to reorder.");
         } else {
-            ArrayList<Skill> skillList = skills.getSkills();
-            skillList = skills.topSkills(skills.getSkills().size());
-            skills.getSkills().removeAll(skills.getSkills());
-            for (Skill s : skillList) {
-                skills.addSkill(s);
-            }
+            skills.sort((a, b) -> Integer.compare(b.getLevel(), a.getLevel()));
             workDisplay.append("Skills reordered from highest to lowest level!\n\n");
         }
-
     }
 
     // MODIFIES: this
@@ -306,12 +297,11 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: user can choose which education to remove and removes from list
     private void handleRemoveEducation() {
-        ArrayList<Education> educations = educationList.getEducations();
         if (educations.isEmpty()) {
             workDisplay.append("No educations to remove.\n\n");
             return;
         }
-        educationList.removeEducations();
+        educations.clear();
         workDisplay.append("All educations removed!\n");
     }
 
@@ -362,10 +352,7 @@ public class ResumeAppGUI extends JFrame {
             Education edu = new Education(gpaField.getText(), institutionField.getText(), locationField.getText(),
                     startYearField.getText(), startMonthField.getText(), endYearField.getText(),
                     endMonthField.getText(), descriptionField.getText());
-            if (educationList == null) {
-                educationList = new EducationList();
-            }
-            educationList.addEducation(edu);
+            educations.add(edu);
             workDisplay.append("Education successfully added!\n\n");
         }
     }
@@ -389,12 +376,11 @@ public class ResumeAppGUI extends JFrame {
     // MODIFIES: this
     // EFFECTS: user can choose which experience to remove and removes from list
     private void handleRemoveExperience() {
-        ArrayList<Experience> experiences = experienceList.getExperiences();
         if (experiences.isEmpty()) {
             workDisplay.append("No experiences to remove.\n\n");
             return;
         }
-        experienceList.removeExperiences();
+        experiences.clear();
         workDisplay.append("All experiences removed!\n");
     }
 
@@ -451,10 +437,7 @@ public class ResumeAppGUI extends JFrame {
                     endYearField.getText(),
                     endMonthField.getText(),
                     descriptionField.getText());
-            if (experienceList == null) {
-                experienceList = new ExperienceList();
-            }
-            experienceList.addExperience(exp);
+            experiences.add(exp);
             workDisplay.append("Experience successfully added!\n\n");
 
         }
@@ -484,9 +467,9 @@ public class ResumeAppGUI extends JFrame {
 
     // EFFECTS: prints out experiences on resumeDisplay
     private void printExperiences() {
-        if (experienceList != null && !experienceList.getExperiences().isEmpty()) {
+        if (experiences.isEmpty()) {
             resumeDisplay.append("EXPERIENCE\n\n");
-            for (Experience exp : experienceList.getExperiences()) {
+            for (Experience exp : experiences) {
                 resumeDisplay.append(exp.getPosition() + " - " + exp.getInstitution() + "\n");
                 if (exp.getEndYear().equals("0")) {
                     resumeDisplay.append(exp.getLocation() + " | " + exp.getStartMonth() + "/" + exp.getStartYear()

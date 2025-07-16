@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-// Represents a reader that reads workroom from JSON data stored in file
+// Represents a reader that reads resume from JSON data stored in file
 
 // NOTE: ENTIRE CLASS IS ADOPTED FROM THE DEMO APPLICATION
 

@@ -342,7 +342,7 @@ public class ResumeAppGUI extends JFrame {
                 startYearField, startMonthField, endYearField, endMonthField, descriptionField);
     }
 
-    // EFFECTS: adds an experience to user resume
+    // EFFECTS: adds an education to user resume
     private void addEducation(JPanel eduPanel, JTextField gpaField, JTextField institutionField,
             JTextField locationField, JTextField startYearField, JTextField startMonthField, JTextField endYearField,
             JTextField endMonthField, JTextField descriptionField) {
@@ -467,7 +467,7 @@ public class ResumeAppGUI extends JFrame {
 
     // EFFECTS: prints out experiences on resumeDisplay
     private void printExperiences() {
-        if (experiences.isEmpty()) {
+        if (!experiences.isEmpty()) {
             resumeDisplay.append("EXPERIENCE\n\n");
             for (Experience exp : experiences) {
                 resumeDisplay.append(exp.getPosition() + " - " + exp.getInstitution() + "\n");
@@ -487,9 +487,9 @@ public class ResumeAppGUI extends JFrame {
 
     // EFFECTS: prints out educations on resumeDisplay
     private void printEducations() {
-        if (educationList != null && !educationList.getEducations().isEmpty()) {
+        if (!educations.isEmpty()) {
             resumeDisplay.append("EDUCATION\n\n");
-            for (Education edu : educationList.getEducations()) {
+            for (Education edu : educations) {
                 resumeDisplay.append(edu.getInstitution() + " - " + edu.getLocation() + "\n");
                 resumeDisplay.append("GPA: " + edu.getGpa() + "\n");
                 if (edu.getEndYear().equals("0")) {
@@ -508,9 +508,9 @@ public class ResumeAppGUI extends JFrame {
 
     // EFFECTS: prints out skills on resumeDisplay
     private void printSkills() {
-        if (skills != null && !skills.getSkills().isEmpty()) {
+        if (!skills.isEmpty()) {
             resumeDisplay.append("SKILLS\n\n");
-            for (Skill s : skills.getSkills()) {
+            for (Skill s : skills) {
                 resumeDisplay.append(s.getTitle() + " | " + "Level: " + s.getLevel() + "\n");
             }
         } else {
